@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { AUTHOR, type Locale } from '../../consts';
 import { site, t } from '../../lib/i18n';
+import { profilePageLd } from '../../lib/seo';
 
 interface Props {
 	locale: Locale;
@@ -10,9 +11,10 @@ const { locale } = Astro.props;
 const ui = t(locale);
 const s = site(locale);
 const pt = locale === 'pt';
+const url = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
-<Base locale={locale} title={ui.nav_about} description={s.description} alternatePath="about">
+<Base locale={locale} title={ui.nav_about} description={s.description} alternatePath="about" jsonLd={[profilePageLd(locale, url)]}>
 	<article class="about">
 		<header>
 			<p class="kicker">{ui.nav_about}</p>
