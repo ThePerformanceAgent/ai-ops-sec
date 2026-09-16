@@ -1,0 +1,12 @@
+---
+interface Props {
+	title?: string;
+	kind?: 'nota' | 'aviso' | 'prova' | 'note' | 'warning' | 'evidence';
+}
+const { title, kind = 'nota' } = Astro.props;
+---
+
+<aside class="callout" data-kind={kind}>
+	{title && <span class="kicker">{title}</span>}
+	<slot />
+</aside>

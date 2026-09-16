@@ -1,0 +1,10 @@
+---
+/* <Redacted>texto</Redacted>: tinta sobre o que foi anonimizado. Passa-se o rato e lê-se
+   o marcador, não o valor: o valor nunca chega ao HTML. */
+interface Props {
+	label?: string;
+}
+const { label = 'anonimizado' } = Astro.props;
+---
+
+<span class="redact" tabindex="0" title={label} aria-label={label}>{label}</span>

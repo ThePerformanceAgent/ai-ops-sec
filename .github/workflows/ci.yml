@@ -1,0 +1,42 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Marcadores privados (caminhos, tokens)
+        run: npm run check:private
+      - name: Segredos no histórico (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build (URL de produção)
+        run: npm run build
+        env:
+          SITE_URL: https://theperformanceagent.github.io
+          BASE_PATH: /ai-ops-sec
+      - name: CSP coerente (meta vs _headers)
+        run: npm run check:csp
+      - name: Ficheiros obrigatórios no output
+        run: |
+          set -e
+          for f in index.html en/index.html rss.xml en/rss.xml llms.txt llms-full.txt robots.txt sitemap-index.xml .well-known/security.txt _headers pagefind/pagefind.js og/default-pt.png; do
+            test -f "dist/$f" || { echo "falta dist/$f"; exit 1; }
+          done
+          echo "output completo"

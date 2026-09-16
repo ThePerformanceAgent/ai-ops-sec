@@ -1,0 +1,41 @@
+---
+/* Pesquisa local com Pagefind: o índice é gerado no build e servido como ficheiros
+   estáticos. Nenhum pedido sai para fora do site. */
+import Base from '../../layouts/Base.astro';
+import type { Locale } from '../../consts';
+import { site, t } from '../../lib/i18n';
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const ui = t(locale);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base locale={locale} title={ui.search} description={site(locale).description} alternatePath="search" noindex>
+	<header class="head">
+		<p class="kicker">{ui.search}</p>
+		<h1>{ui.search}</h1>
+	</header>
+	<link rel="stylesheet" href={`${base}/pagefind/pagefind-ui.css`} />
+	<div id="search" data-base={base} data-lang={locale}></div>
+	<script src={`${base}/js/search.js`} defer is:inline></script>
+</Base>
+
+<style is:global>
+	:root {
+		--pagefind-ui-scale: 0.9;
+		--pagefind-ui-primary: var(--signal);
+		--pagefind-ui-text: var(--ink);
+		--pagefind-ui-background: var(--paper-2);
+		--pagefind-ui-border: var(--line);
+		--pagefind-ui-tag: var(--code-bg);
+		--pagefind-ui-border-width: 1px;
+		--pagefind-ui-border-radius: 3px;
+		--pagefind-ui-font: var(--font-body);
+	}
+	.head {
+		margin-bottom: 1.5rem;
+	}
+</style>

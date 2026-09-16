@@ -1,0 +1,6 @@
+# RFC 9116. Falhas neste site ou no seu código: usar o canal privado abaixo.
+Contact: https://github.com/ThePerformanceAgent/ai-ops-sec/security/advisories/new
+Expires: 2027-09-30T00:00:00.000Z
+Preferred-Languages: pt, en
+Canonical: https://theperformanceagent.github.io/ai-ops-sec/.well-known/security.txt
+Policy: https://github.com/ThePerformanceAgent/ai-ops-sec/blob/main/SECURITY.md

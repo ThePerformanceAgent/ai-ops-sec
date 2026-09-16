@@ -1,0 +1,28 @@
+name: Artigo (pipeline editorial)
+description: Uma ideia de artigo que entra no pipeline ideia > research > rascunho > revisão > aprovado > publicado
+title: "[artigo] "
+labels: ["stage:ideia", "tipo:post"]
+body:
+  - type: input
+    id: tese
+    attributes:
+      label: Tese em uma frase
+      description: O que o leitor sabe fazer depois de ler que não sabia antes
+    validations:
+      required: true
+  - type: dropdown
+    id: lang
+    attributes:
+      label: Língua
+      options: [pt, en, pt+en]
+    validations:
+      required: true
+  - type: textarea
+    id: prova
+    attributes:
+      label: Que prova vai sustentar o artigo
+      description: Teste, trace, medição, leitura de código. Sem prova não há artigo.
+  - type: textarea
+    id: fontes
+    attributes:
+      label: Fontes primárias já identificadas

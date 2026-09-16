@@ -1,0 +1,37 @@
+---
+import type { Locale } from '../consts';
+import { formatDate, href, isoDate, t } from '../lib/i18n';
+import { readingMinutes, slugOf, type Post } from '../lib/posts';
+interface Props {
+	post: Post;
+	index?: number;
+}
+const { post, index = 0 } = Astro.props;
+const d = post.data;
+const locale: Locale = d.lang;
+const ui = t(locale);
+---
+
+<li class="tracerow reveal" style={`--i:${index}`}>
+	<div class="meta mono">
+		<time datetime={d.pubDate.toISOString()}><b>{isoDate(d.pubDate)}</b></time>
+		<span>{readingMinutes(post.body)} {ui.min_read}</span>
+		<span class={d.verifiedOn ? 'ok' : ''}>{d.verifiedOn ? `✓ ${ui.verified} ${formatDate(d.verifiedOn, locale)}` : d.status}</span>
+	</div>
+	<div>
+		<h3><a href={href(locale, `blog/${slugOf(post)}`)}>{d.title}</a></h3>
+		<p>{d.description}</p>
+		<div class="tags">{d.tags.map((tag) => <a class="tag" href={href(locale, `tags/${tag}`)}>{tag}</a>)}</div>
+	</div>
+</li>
+
+<style>
+	.ok {
+		color: var(--signal);
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+	}
+</style>

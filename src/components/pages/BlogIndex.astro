@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRow from '../PostRow.astro';
+import type { Locale } from '../../consts';
+import { site, t } from '../../lib/i18n';
+import { getPosts } from '../../lib/posts';
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const ui = t(locale);
+const posts = await getPosts(locale);
+---
+
+<Base locale={locale} title={ui.all_posts} description={site(locale).description} alternatePath="blog">
+	<header class="head">
+		<p class="kicker">{ui.nav_blog}</p>
+		<h1>{ui.all_posts} <span class="mono count">{posts.length}</span></h1>
+	</header>
+	{posts.length === 0 ? <p class="lede">{ui.no_posts}</p> : <ul class="tracelist">{posts.map((p, i) => <PostRow post={p} index={i} />)}</ul>}
+</Base>
+
+<style>
+	.head {
+		margin-bottom: 2rem;
+	}
+	.count {
+		font-size: 0.5em;
+		vertical-align: middle;
+	}
+	.tracelist {
+		margin-left: 1.1rem;
+	}
+</style>

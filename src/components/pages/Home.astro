@@ -1,0 +1,112 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRow from '../PostRow.astro';
+import type { Locale } from '../../consts';
+import { href, site, t } from '../../lib/i18n';
+import { getPosts } from '../../lib/posts';
+import { websiteLd } from '../../lib/seo';
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const ui = t(locale);
+const s = site(locale);
+const posts = (await getPosts(locale)).slice(0, 6);
+const siteUrl = new URL(href(locale, ''), Astro.site).toString();
+const headline =
+	locale === 'pt'
+		? ['Agentes de IA em produção,', 'observados', 'e atacados', 'antes de o serem por outros.']
+		: ['AI agents in production,', 'observed', 'and attacked', 'before someone else does it.'];
+---
+
+<Base locale={locale} title={s.title} description={s.description} alternatePath="" jsonLd={[websiteLd(locale, siteUrl)]}>
+	<section class="hero">
+		<p class="kicker reveal" style="--i:0">{locale === 'pt' ? 'segurança de agentes · observabilidade · portugal' : 'agent security · observability · portugal'}</p>
+		<h1 class="reveal" style="--i:1">
+			{headline[0]}<br /><em>{headline[1]}</em> {headline[2]}<br />{headline[3]}
+		</h1>
+		<p class="lede reveal" style="--i:2">{s.description}</p>
+		<div class="cta reveal" style="--i:3">
+			<a class="btn" href={href(locale, 'blog')}>{ui.all_posts}</a>
+			<a class="btn ghost" href={href(locale, 'rss.xml')}>{ui.rss}</a>
+		</div>
+	</section>
+
+	<section class="latest">
+		<div class="stitle">
+			<span class="kicker">{ui.latest}</span>
+			<span class="mono">{posts.length.toString().padStart(2, '0')}</span>
+		</div>
+		{posts.length === 0 ? (
+			<p class="empty reveal" style="--i:4">{ui.no_posts}</p>
+		) : (
+			<ul class="tracelist">{posts.map((p, i) => <PostRow post={p} index={i + 4} />)}</ul>
+		)}
+	</section>
+
+	<section class="built reveal" style="--i:6">
+		<span class="kicker">{ui.how_built}</span>
+		<ol class="mono">
+			{ui.how_built_items.map((item, i) => (
+				<li><span class="n">{String(i + 1).padStart(2, '0')}</span><span>{item}</span></li>
+			))}
+		</ol>
+	</section>
+</Base>
+
+<style>
+	.hero {
+		padding: clamp(1rem, 4vw, 3rem) 0 clamp(3rem, 7vw, 6rem);
+		max-width: 60rem;
+	}
+	.hero h1 {
+		margin: 0.8rem 0 1.4rem;
+	}
+	.cta {
+		display: flex;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+		margin-top: 1.8rem;
+	}
+	.stitle {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-bottom: 0.8rem;
+	}
+	.tracelist {
+		margin-left: 1.1rem;
+	}
+	.empty {
+		border-top: 1px solid var(--line);
+		border-bottom: 1px solid var(--line);
+		padding: 2rem 0;
+		color: var(--ink-2);
+		max-width: 52ch;
+	}
+	.built {
+		margin-top: clamp(3rem, 7vw, 6rem);
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line);
+	}
+	.built ol {
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		gap: 1.2rem 2.5rem;
+		font-size: 0.8rem;
+		color: var(--ink-2);
+		line-height: 1.55;
+	}
+	.built li {
+		display: flex;
+		gap: 0.8rem;
+	}
+	.built .n {
+		color: var(--signal);
+		flex: 0 0 auto;
+	}
+</style>

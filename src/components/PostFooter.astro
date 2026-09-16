@@ -1,0 +1,108 @@
+---
+/* Fontes, verificação à mão e histórico: o rodapé de prova de cada artigo. */
+import { AUTHOR, type Locale } from '../consts';
+import { formatDate, t } from '../lib/i18n';
+import { slugOf, versionOf, type Post } from '../lib/posts';
+
+interface Props {
+	post: Post;
+	url: string;
+}
+const { post, url } = Astro.props;
+const d = post.data;
+const locale: Locale = d.lang;
+const ui = t(locale);
+const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
+---
+
+<footer class="proof">
+	{d.verified.length > 0 && (
+		<section class="callout" aria-labelledby="verified">
+			<span class="kicker" id="verified">{ui.verified_title}{d.verifiedOn && <> · {formatDate(d.verifiedOn, locale)}</>}</span>
+			<ul>{d.verified.map((v) => <li>{v}</li>)}</ul>
+		</section>
+	)}
+	{d.sources.length > 0 && (
+		<section aria-labelledby="sources">
+			<span class="kicker" id="sources">{ui.sources_title}</span>
+			<ol class="sources">
+				{d.sources.map((s) => (
+					<li>
+						<a href={s.url} rel="noopener">{s.title}</a>
+						{s.accessed && <span class="mono"> · {ui.accessed} {formatDate(s.accessed, locale)}</span>}
+					</li>
+				))}
+			</ol>
+		</section>
+	)}
+	{d.changelog.length > 0 && (
+		<section aria-labelledby="changelog">
+			<span class="kicker" id="changelog">{ui.changelog_title}</span>
+			<ol class="log mono">
+				{d.changelog.map((c) => (
+					<li><time datetime={c.date.toISOString()}>{formatDate(c.date, locale)}</time><span>{c.note}</span></li>
+				))}
+			</ol>
+		</section>
+	)}
+	<section class="cite">
+		<span class="kicker">{ui.cite}</span>
+		<pre class="mono"><code>{AUTHOR.name}. "{d.title}". AI Ops Sec, {formatDate(d.updatedDate ?? d.pubDate, locale)} ({versionOf(post)}). {url}</code></pre>
+		<p class="mono"><a href={editUrl} rel="noopener">src/content/posts/{post.id}.mdx</a> · {slugOf(post)}</p>
+	</section>
+</footer>
+
+<style>
+	.proof {
+		margin-top: 3.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px dashed var(--line-2);
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		max-width: var(--measure);
+	}
+	.kicker {
+		display: block;
+		margin-bottom: 0.6rem;
+	}
+	ul,
+	ol {
+		margin: 0;
+		padding-left: 1.2em;
+	}
+	li + li {
+		margin-top: 0.4em;
+	}
+	li::marker {
+		color: var(--signal);
+		font-family: var(--font-mono);
+		font-size: 0.85em;
+	}
+	.sources a {
+		text-decoration-color: var(--signal);
+	}
+	.log {
+		list-style: none;
+		padding: 0;
+	}
+	.log li {
+		display: grid;
+		grid-template-columns: 7rem 1fr;
+		gap: 1rem;
+		color: var(--ink-2);
+	}
+	.log time {
+		color: var(--muted);
+	}
+	.cite pre {
+		background: var(--code-bg);
+		border: 1px solid var(--line);
+		padding: 0.8em 1em;
+		border-radius: 3px;
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+		color: var(--ink-2);
+		margin: 0 0 0.5em;
+	}
+</style>

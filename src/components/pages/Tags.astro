@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRow from '../PostRow.astro';
+import type { Locale } from '../../consts';
+import { href, site, t } from '../../lib/i18n';
+import { getPosts, getTags } from '../../lib/posts';
+
+interface Props {
+	locale: Locale;
+	tag?: string;
+}
+const { locale, tag } = Astro.props;
+const ui = t(locale);
+const tags = await getTags(locale);
+const posts = tag ? (await getPosts(locale)).filter((p) => p.data.tags.includes(tag)) : [];
+---
+
+<Base
+	locale={locale}
+	title={tag ? `${ui.tagged} ${tag}` : ui.tags_title}
+	description={site(locale).description}
+	alternatePath={tag ? `tags/${tag}` : 'tags'}
+	noindex={!!tag && posts.length === 0}
+>
+	<header class="head">
+		<p class="kicker">{ui.nav_tags}</p>
+		<h1>{tag ? <>{ui.tagged} <em>#{tag}</em></> : ui.tags_title}</h1>
+	</header>
+	<div class="cloud">
+		{[...tags.entries()].map(([name, n]) => (
+			<a class="tag" href={href(locale, `tags/${name}`)} aria-current={name === tag ? 'page' : undefined}>{name} <span class="mono">{n}</span></a>
+		))}
+		{tags.size === 0 && <p class="lede">{ui.no_posts}</p>}
+	</div>
+	{tag && <ul class="tracelist">{posts.map((p, i) => <PostRow post={p} index={i} />)}</ul>}
+</Base>
+
+<style>
+	.head {
+		margin-bottom: 1.5rem;
+	}
+	.cloud {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-bottom: 2.5rem;
+	}
+	.tag[aria-current='page'] {
+		border-color: var(--signal);
+		color: var(--signal);
+	}
+	.tracelist {
+		margin-left: 1.1rem;
+	}
+</style>

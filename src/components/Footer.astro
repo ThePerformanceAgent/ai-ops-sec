@@ -1,0 +1,72 @@
+---
+import { AUTHOR, type Locale } from '../consts';
+import { href, t } from '../lib/i18n';
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const ui = t(locale);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="wrap grid">
+		<div>
+			<span class="brand">AI <em>Ops</em> Sec</span>
+			<p class="mono">{AUTHOR.name} · {year}<br />{ui.footer_license}</p>
+		</div>
+		<ul class="links mono">
+			<li><a href={href(locale, 'rss.xml')}>{ui.rss}</a></li>
+			<li><a href={`${base}/llms.txt`}>llms.txt</a></li>
+			<li><a href={AUTHOR.repo} rel="me">{ui.footer_source}</a></li>
+			<li><a href={`${base}/.well-known/security.txt`}>{ui.footer_security}</a></li>
+			<li><a href={AUTHOR.github} rel="me">GitHub</a></li>
+		</ul>
+		<p class="mono note">{ui.footer_no_trackers}</p>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		margin-top: auto;
+		border-top: 1px solid var(--line);
+		padding: 2.5rem 0 3rem;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: 1.5rem 3rem;
+		align-items: start;
+	}
+	.brand {
+		font-family: var(--font-display);
+		font-size: 1.3rem;
+	}
+	.brand em {
+		color: var(--signal);
+	}
+	.links {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1.2rem;
+	}
+	.links a {
+		text-decoration: none;
+	}
+	.links a:hover {
+		color: var(--signal);
+	}
+	.note {
+		grid-column: 1 / -1;
+		margin: 0;
+	}
+	@media (max-width: 640px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

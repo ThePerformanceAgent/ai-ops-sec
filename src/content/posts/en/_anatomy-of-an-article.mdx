@@ -1,0 +1,46 @@
+---
+title: "Anatomy of an article on this site"
+description: "What every article here must bring before it is published: TL;DR, reproducible method, findings with evidence, mitigations, limits and sources."
+pubDate: 2026-09-16
+lang: en
+translationKey: anatomy
+tags: [meta, method]
+status: draft
+sources:
+  - title: "llms.txt specification"
+    url: "https://llmstxt.org/"
+    accessed: 2026-09-16
+verified:
+  - "This article is a template. It makes no claims about third parties."
+verifiedOn: 2026-09-16
+changelog:
+  - date: 2026-09-16
+    note: "Template created with the site."
+---
+
+**TL;DR.** Three sentences. What was tested, what was found, what to do about it.
+
+## Context
+
+Why this matters to whoever runs agents in production. No hype.
+
+## What I did
+
+Steps, commands, configuration. The reader must be able to repeat it.
+
+## What I found
+
+Findings with evidence: a trace, a log, an anonymised capture. Where a real value existed, it
+reads <Redacted label="client id" />.
+
+<Callout title="Evidence" kind="evidence">
+A callout highlights the evidence behind the previous sentence and names the method it came from.
+</Callout>
+
+## Mitigations
+
+What changes, why, and the exit for those who disagree. Paste-ready patch whenever possible.
+
+## Limits of this analysis
+
+What was not tested. What might be wrong. A weak method does not support a strong sentence.

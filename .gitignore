@@ -1,0 +1,14 @@
+# build
+dist/
+.astro/
+node_modules/
+# ambiente e segredos: nunca aqui
+.env
+.env.*
+*.pem
+*.key
+# sistema
+.DS_Store
+npm-debug.log*
+# conteúdo em rascunho local que não deve sair (o espelho só traz `published`)
+src/content/posts/**/*.local.*

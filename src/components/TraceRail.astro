@@ -1,0 +1,142 @@
+---
+/* A metadata de um artigo apresentada como um trace: quando saiu, em que língua,
+   quanto demora, quando foi verificado, quantas fontes, que versão. Em ecrãs largos
+   fica colada à esquerda enquanto se lê; em ecrãs pequenos é o bloco de abertura. */
+import type { Locale } from '../consts';
+import { formatDate, href, isoDate, t } from '../lib/i18n';
+import { readingMinutes, slugOf, versionOf, type Post } from '../lib/posts';
+
+interface Props {
+	post: Post;
+	headings: { depth: number; slug: string; text: string }[];
+	translation?: Post;
+}
+const { post, headings, translation } = Astro.props;
+const d = post.data;
+const locale: Locale = d.lang;
+const ui = t(locale);
+const minutes = readingMinutes(post.body);
+const h2s = headings.filter((h) => h.depth === 2);
+---
+
+<aside class="rail" aria-label={ui.trace}>
+	<div class="block">
+		<span class="kicker">{ui.trace}</span>
+		<dl class="mono">
+			<dt>id</dt>
+			<dd><b>{isoDate(d.pubDate)}/{slugOf(post)}</b></dd>
+			<dt>lang</dt>
+			<dd>{d.lang}{translation && <> · <a href={href(translation.data.lang, `blog/${slugOf(translation)}`)}>{translation.data.lang}</a></>}</dd>
+			<dt>{ui.read}</dt>
+			<dd>{minutes} {ui.min_read}</dd>
+			<dt>{ui.published}</dt>
+			<dd><time datetime={d.pubDate.toISOString()}>{formatDate(d.pubDate, locale)}</time></dd>
+			{d.updatedDate && (
+				<>
+					<dt>{ui.updated}</dt>
+					<dd><time datetime={d.updatedDate.toISOString()}>{formatDate(d.updatedDate, locale)}</time></dd>
+				</>
+			)}
+			<dt>{ui.verified}</dt>
+			<dd class={d.verifiedOn ? 'ok' : 'warn'}>{d.verifiedOn ? `✓ ${formatDate(d.verifiedOn, locale)}` : '·'}</dd>
+			<dt>{ui.sources}</dt>
+			<dd>{d.sources.length}</dd>
+			<dt>ver</dt>
+			<dd>{versionOf(post)}</dd>
+		</dl>
+	</div>
+	{h2s.length > 1 && (
+		<nav class="toc block" aria-label="Secções">
+			<ol class="mono">
+				{h2s.map((h, i) => (
+					<li><a href={`#${h.slug}`}><span class="n">{String(i + 1).padStart(2, '0')}</span>{h.text}</a></li>
+				))}
+			</ol>
+		</nav>
+	)}
+	<div class="block tags">
+		{d.tags.map((tag) => <a class="tag" href={href(locale, `tags/${tag}`)}>{tag}</a>)}
+	</div>
+</aside>
+
+<style>
+	.rail {
+		display: flex;
+		flex-direction: column;
+		gap: 1.4rem;
+		position: sticky;
+		top: 4.6rem;
+		align-self: start;
+	}
+	.block {
+		border-left: 1px solid var(--line);
+		padding-left: 1rem;
+	}
+	dl {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0.35rem 0.9rem;
+		margin: 0.5rem 0 0;
+	}
+	dt {
+		color: var(--muted);
+	}
+	dd {
+		margin: 0;
+		color: var(--ink-2);
+		overflow-wrap: anywhere;
+	}
+	dd.ok {
+		color: var(--signal);
+	}
+	dd a {
+		text-decoration: none;
+		color: var(--signal);
+	}
+	.toc ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+	}
+	.toc a {
+		text-decoration: none;
+		color: var(--ink-2);
+		display: flex;
+		gap: 0.6rem;
+		line-height: 1.35;
+	}
+	.toc a:hover {
+		color: var(--signal);
+	}
+	.toc .n {
+		color: var(--signal);
+		flex: 0 0 auto;
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+	@media (max-width: 960px) {
+		.rail {
+			position: static;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1rem 2rem;
+		}
+		.toc {
+			display: none;
+		}
+		.tags {
+			grid-column: 1 / -1;
+		}
+	}
+	@media (max-width: 560px) {
+		.rail {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

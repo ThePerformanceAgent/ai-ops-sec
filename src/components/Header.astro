@@ -1,0 +1,117 @@
+---
+import type { Locale } from '../consts';
+import { href, otherLocale, site, t } from '../lib/i18n';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+	locale: Locale;
+	alternatePath?: string; // caminho relativo da mesma página no outro locale
+}
+const { locale, alternatePath } = Astro.props;
+const ui = t(locale);
+const s = site(locale);
+const other = otherLocale(locale);
+const path = Astro.url.pathname;
+const isActive = (p: string) => path.startsWith(href(locale, p));
+---
+
+<header class="site-header">
+	<div class="wrap bar">
+		<a class="brand" href={href(locale, '')} aria-label={s.title}>
+			<span class="brand-mark" aria-hidden="true">//</span>
+			<span class="brand-name">AI <em>Ops</em> Sec</span>
+		</a>
+		<nav aria-label="Principal">
+			<a href={href(locale, 'blog')} aria-current={isActive('blog') ? 'page' : undefined}>{ui.nav_blog}</a>
+			<a href={href(locale, 'tags')} aria-current={isActive('tags') ? 'page' : undefined}>{ui.nav_tags}</a>
+			<a href={href(locale, 'about')} aria-current={isActive('about') ? 'page' : undefined}>{ui.nav_about}</a>
+		</nav>
+		<div class="tools">
+			<a class="iconbtn lang" href={href(other, alternatePath ?? '')} title={ui.lang_switch} lang={other}>{ui.lang_switch_short}</a>
+			<a class="iconbtn" href={href(locale, 'search')} title={ui.search} aria-label={ui.search}>
+				<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+			</a>
+			<ThemeToggle label={ui.theme} />
+		</div>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: color-mix(in srgb, var(--paper) 88%, transparent);
+		backdrop-filter: saturate(1.2) blur(8px);
+		border-bottom: 1px solid var(--line);
+	}
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		min-height: 3.6rem;
+	}
+	.brand {
+		white-space: nowrap;
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		text-decoration: none;
+		font-family: var(--font-display);
+		font-size: 1.45rem;
+		letter-spacing: -0.01em;
+	}
+	.brand em {
+		color: var(--signal);
+	}
+	.brand-mark {
+		font: 600 0.8rem var(--font-mono);
+		color: var(--muted);
+	}
+	nav {
+		display: flex;
+		gap: 1.25rem;
+		margin-left: auto;
+		font: 500 0.78rem var(--font-mono);
+	}
+	nav a {
+		text-decoration: none;
+		color: var(--ink-2);
+		padding: 0.3rem 0;
+		border-bottom: 1px solid transparent;
+	}
+	nav a:hover,
+	nav a[aria-current='page'] {
+		color: var(--signal);
+		border-bottom-color: var(--signal);
+	}
+	.tools {
+		display: flex;
+		gap: 0.4rem;
+		align-items: center;
+	}
+	.lang {
+		font: 600 0.7rem var(--font-mono);
+		text-decoration: none;
+	}
+	@media (max-width: 640px) {
+		.bar {
+			flex-wrap: wrap;
+			gap: 0.5rem 1rem;
+			padding: 0.6rem 0;
+		}
+		.tools {
+			margin-left: auto;
+		}
+		nav {
+			order: 3;
+			flex-basis: 100%;
+			margin-left: 0;
+			gap: 1rem;
+			font-size: 0.72rem;
+		}
+		.brand {
+			font-size: 1.25rem;
+		}
+	}
+</style>

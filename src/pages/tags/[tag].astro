@@ -1,0 +1,10 @@
+---
+import Tags from '../../components/pages/Tags.astro';
+import { getTags } from '../../lib/posts';
+export async function getStaticPaths() {
+	return [...(await getTags('pt')).keys()].map((tag) => ({ params: { tag } }));
+}
+const { tag } = Astro.params;
+---
+
+<Tags locale="pt" tag={tag} />

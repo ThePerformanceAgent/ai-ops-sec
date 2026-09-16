@@ -1,0 +1,37 @@
+{
+  "name": "ai-ops-sec",
+  "type": "module",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "check:private": "node scripts/check-private-markers.mjs",
+    "check:csp": "node scripts/check-csp.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.1",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.2",
+    "pagefind": "^1.5.2",
+    "satori": "^0.33.4",
+    "sharp": "^0.35.0"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "private": true,
+  "description": "AI Ops Sec: AI agent security and observability, with evidence. Static blog built with Astro.",
+  "license": "MIT",
+  "author": "André Silva",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ThePerformanceAgent/ai-ops-sec.git"
+  }
+}

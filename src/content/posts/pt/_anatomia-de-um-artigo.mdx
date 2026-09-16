@@ -1,0 +1,51 @@
+---
+title: "Anatomia de um artigo neste site"
+description: "O que cada artigo tem de trazer para ser publicado aqui: TL;DR, método reproduzível, achados com prova, mitigações, limites e fontes."
+pubDate: 2026-09-16
+lang: pt
+translationKey: anatomy
+tags: [meta, metodo]
+status: draft
+sources:
+  - title: "llms.txt specification"
+    url: "https://llmstxt.org/"
+    accessed: 2026-09-16
+verified:
+  - "Este artigo é um modelo. Não contém afirmações sobre terceiros."
+verifiedOn: 2026-09-16
+changelog:
+  - date: 2026-09-16
+    note: "Modelo criado com o site."
+---
+
+**TL;DR.** Três frases. O que foi testado, o que se encontrou, o que fazer com isso.
+
+## Contexto
+
+Porque é que isto importa a quem opera agentes em produção. Sem hype, sem adjectivos a mais.
+
+## O que fiz
+
+Passos, comandos e configurações. Quem lê tem de conseguir repetir.
+
+```bash
+# exemplo de bloco de código com linguagem anotada
+python3 red_team.py --target mcp://local --suite asi
+```
+
+## O que encontrei
+
+Achados com prova: um trace, um log ou uma captura anonimizada. Onde havia um valor real,
+fica <Redacted label="id de cliente" />.
+
+<Callout title="Prova" kind="prova">
+Um bloco de contexto destaca a evidência que sustenta a frase anterior, e diz de que método veio.
+</Callout>
+
+## Mitigações
+
+O que muda, porquê, e a saída para quem discordar. Patch pronto a colar sempre que possível.
+
+## Limites desta análise
+
+O que não foi testado. O que pode estar errado. Um método fraco não sustenta uma frase forte.
