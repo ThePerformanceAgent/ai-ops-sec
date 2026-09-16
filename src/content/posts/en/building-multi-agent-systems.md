@@ -4,7 +4,7 @@ description: "Patterns and anti-patterns from shipping coordinator–worker agen
 pubDate: 2026-05-20
 updatedDate: 2026-05-27
 lang: en
-area: tokenizacao
+area: agentes
 translationKey: building-multi-agent-systems
 tags: [token-economy, agent, agentic, multi-agent, orchestration, tool-use, autonomy]
 series: "The Token Economy"
