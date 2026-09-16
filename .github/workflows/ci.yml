@@ -23,7 +23,7 @@ jobs:
       - name: Marcadores privados (caminhos, tokens)
         run: npm run check:private
       - name: Segredos no histórico (gitleaks)
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build (URL de produção)
