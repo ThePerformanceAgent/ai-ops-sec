@@ -7,7 +7,8 @@ export const AUTHOR = {
 	handle: 'andresilvalab',
 	github: 'https://github.com/andresilvalab',
 	repo: 'https://github.com/andresilvalab/ai-ops-sec',
-	linkedin: '', // preencher com o URL público real antes do lançamento
+	linkedin: 'https://www.linkedin.com/in/andre-silva-business-automation/',
+	company: { name: 'Wise Pirates', url: 'https://wisepirates.com/', contact: 'https://wisepirates.com/contacts/' },
 };
 
 export const SITE = {

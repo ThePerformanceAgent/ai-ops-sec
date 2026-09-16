@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { AUTHOR, type Locale } from '../../consts';
-import { site, t } from '../../lib/i18n';
+import { href, site, t } from '../../lib/i18n';
 import { profilePageLd } from '../../lib/seo';
 
 interface Props {
@@ -12,94 +12,242 @@ const ui = t(locale);
 const s = site(locale);
 const pt = locale === 'pt';
 const url = new URL(Astro.url.pathname, Astro.site).toString();
+
+const eras = pt
+	? [
+			{ seq: '01', title: 'Campanhas e dados', body: 'Comecei em campanhas de Google e Meta Ads. Passei por analytics, BI e forecasting. Foi aí que aprendi a ler um negócio pelos números e a desconfiar de dashboards que ninguém consulta.' },
+			{ seq: '02', title: 'Performance marketing', body: 'Contas multi-mercado, orçamentos com regra, atribuição que tinha de bater com o BI do cliente. Quanto mais campanhas optimizava, mais processos manuais encontrava à volta: reporting que demorava horas, dados copiados entre sistemas, decisões por intuição.' },
+			{ seq: '03', title: 'Automação de processos', body: 'Resolvi automatizar isso tudo. Workflows n8n em produção, integrações API multi-sistema, pipelines de dados com logs, métricas e alertas desde o primeiro dia. Idempotência, retries e runbooks deixaram de ser vocabulário de engenharia e passaram a ser o que separa o que aguenta do que cai.' },
+			{ seq: '04', title: 'IA agêntica em produção', body: 'Hoje desenho e opero agentes de IA que executam trabalho real: com ferramentas, memória, supervisão e limites explícitos. Construí uma engine de conhecimento (Prism) que transforma cada projecto em padrões reutilizáveis, servidores MCP para as plataformas com que trabalho, e o pipeline que produz este laboratório. A pergunta deixou de ser "funciona?" e passou a ser "é seguro, é observável e prova valor?".' },
+		]
+	: [
+			{ seq: '01', title: 'Campaigns and data', body: 'I started in Google and Meta Ads campaigns, then analytics, BI and forecasting. That is where I learned to read a business through its numbers, and to distrust dashboards nobody opens.' },
+			{ seq: '02', title: 'Performance marketing', body: 'Multi-market accounts, rule-based budgets, attribution that had to reconcile with the client\'s BI. The more campaigns I optimised, the more manual processes I found around them: reporting that took hours, data copied between systems, decisions by gut feeling.' },
+			{ seq: '03', title: 'Process automation', body: 'So I automated all of it. n8n workflows in production, multi-system API integrations, data pipelines with logs, metrics and alerts from day one. Idempotency, retries and runbooks stopped being engineering vocabulary and became what separates what holds from what falls.' },
+			{ seq: '04', title: 'Agentic AI in production', body: 'Today I design and operate AI agents that do real work: with tools, memory, supervision and explicit limits. I built a knowledge engine (Prism) that turns every project into reusable patterns, MCP servers for the platforms I work with, and the pipeline that produces this lab. The question stopped being "does it work?" and became "is it safe, observable, and does it prove value?".' },
+		];
+
+const builds = pt
+	? [
+			['Agentes com travões', 'Whitelist de ferramentas, validação de output antes de acções irreversíveis, kill switch, políticas de acesso por agente.'],
+			['Observabilidade por defeito', 'Logs estruturados, trace por execução, métricas e alertas que acordam antes do cliente reclamar.'],
+			['Automação que prova valor', 'Cada automação tem de mostrar euros poupados ou horas recuperadas. Menos teatro, mais produção.'],
+			['Produtização', 'Transformar o que funciona num cliente em produto repetível: engine de conhecimento, servidores MCP, pipelines de reporting, agentes de orçamento.'],
+		]
+	: [
+			['Agents with brakes', 'Tool whitelists, output validation before irreversible actions, kill switch, per-agent access policies.'],
+			['Observability by default', 'Structured logs, a trace per run, metrics and alerts that wake up before the client complains.'],
+			['Automation that proves value', 'Every automation must show euros saved or hours recovered. Less theatre, more production.'],
+			['Productisation', 'Turning what works for one client into a repeatable product: knowledge engine, MCP servers, reporting pipelines, quoting agents.'],
+		];
+
+const stack = ['n8n', 'MCP', 'Claude', 'Python', 'TypeScript', 'Supabase', 'Qdrant', 'Railway', 'Cloudflare', 'Google Ads', 'Meta Ads', 'OpenTelemetry'];
 ---
 
 <Base locale={locale} title={ui.nav_about} description={s.description} alternatePath="about" jsonLd={[profilePageLd(locale, url)]}>
 	<article class="about">
-		<header>
+		<header class="reveal" style="--i:0">
 			<p class="seq-label">//{ui.nav_about}</p>
-			<h1>{pt ? <>Um laboratório de IA agêntica, <em>com prova</em>.</> : <>An agentic AI lab, <em>with evidence</em>.</>}</h1>
-		</header>
-		<div class="grid">
-			<div class="card prose" style="--i:1">
+			<h1>
 				{pt ? (
-					<>
-						<p>
-							Ponho agentes de IA a trabalhar em produção: automação de processos, servidores MCP, modelos locais e comerciais,
-							bases de dados com dados de clientes reais. Este laboratório é onde documento o que isso ensina, em seis áreas: a
-							que assino, AI Ops Sec (segurança e observabilidade de agentes), e as outras cinco sem as quais ela não faz sentido.
-						</p>
-						<p>
-							Tudo o que aqui aparece é anonimizado, e cada artigo lista as fontes, o que verifiquei à mão e o que mudou desde
-							que foi publicado.
-						</p>
-						<p>Sou o {AUTHOR.name}. Trabalho em automação de processos e IA agêntica, no Porto.</p>
-					</>
+					<>Mais de vinte anos a transformar dados em decisões. Hoje, <em>agentes em produção</em>.</>
 				) : (
-					<>
-						<p>
-							I put AI agents to work in production: process automation, MCP servers, local and commercial models, databases
-							with real client data. This lab is where I document what that teaches, in six areas: the one I sign, AI Ops Sec
-							(agent security and observability), and the five others without which it makes no sense.
-						</p>
-						<p>
-							Everything here is anonymised, and every article lists its sources, what I verified by hand, and what changed
-							since it was published.
-						</p>
-						<p>I am {AUTHOR.name}. I work in process automation and agentic AI, in Porto, Portugal.</p>
-					</>
+					<>Twenty-plus years turning data into decisions. Today, <em>agents in production</em>.</>
 				)}
-				<p class="mono"><a href={AUTHOR.github} rel="me">GitHub</a> · <a href={AUTHOR.repo}>{ui.footer_source}</a></p>
+			</h1>
+			<p class="lede">
+				{pt
+					? 'Sou o André Silva. Trabalho em automação de processos e IA agêntica na Wise Pirates, no Porto. Este laboratório é onde documento, com prova, o que aprendo a pôr agentes a trabalhar em empresas reais.'
+					: 'I am André Silva. I work in process automation and agentic AI at Wise Pirates, in Porto, Portugal. This lab is where I document, with evidence, what I learn putting agents to work in real companies.'}
+			</p>
+		</header>
+
+		<section class="card today" style="--i:1; --accent-dot: var(--accent)">
+			<div class="stitle"><span class="idx">//</span><h2>{pt ? 'Hoje: Wise Pirates' : 'Today: Wise Pirates'}</h2><span class="rule"></span><span class="hint">Porto</span></div>
+			<div class="today-grid">
+				<div class="prose">
+					{pt ? (
+						<>
+							<p>
+								Na <a href={AUTHOR.company.url} rel="noopener">Wise Pirates</a>, agência de marketing digital orientada a dados (desde 2017, mais de 100 pessoas e 500 marcas servidas), lidero a unidade de <strong>Process Automation &amp; Agentic AI</strong> e integro a direcção operacional com o eixo de tecnologia e infraestrutura.
+							</p>
+							<p>
+								O trabalho da unidade é pôr a inteligência a correr, não a ficar num relatório: workflows de automação empresarial, agentes especializados com RAG, memória e supervisão, pipelines de dados com observabilidade, e a camada de segurança que os deixa entrar em produção. É lá que aplico o que escrevo aqui, e é lá que me encontras para trabalhar.
+							</p>
+						</>
+					) : (
+						<>
+							<p>
+								At <a href={AUTHOR.company.url} rel="noopener">Wise Pirates</a>, a data-driven digital marketing agency (since 2017, 100+ people and 500+ brands served), I lead the <strong>Process Automation &amp; Agentic AI</strong> unit and sit on the operational leadership with the technology and infrastructure axis.
+							</p>
+							<p>
+								The unit's job is to make intelligence run instead of sitting in a report: business automation workflows, specialised agents with RAG, memory and supervision, data pipelines with observability, and the security layer that lets them into production. That is where I apply what I write here, and where you can find me to work together.
+							</p>
+						</>
+					)}
+				</div>
+				<div class="find">
+					<span class="seq-label">{pt ? 'onde me encontrar' : 'where to find me'}</span>
+					<a class="btn" href={AUTHOR.company.contact} rel="noopener">Wise Pirates</a>
+					<a class="btn ghost" href={AUTHOR.linkedin} rel="me noopener">LinkedIn</a>
+					<a class="btn ghost" href={AUTHOR.github} rel="me noopener">GitHub</a>
+					<p class="mono">{pt ? 'Trabalho e propostas pela Wise Pirates. Conversas técnicas no LinkedIn.' : 'Work and proposals through Wise Pirates. Technical conversations on LinkedIn.'}</p>
+				</div>
 			</div>
-			<aside class="verdict" style="--i:2">
+		</section>
+
+		<section class="path">
+			<div class="stitle"><span class="idx">//</span><h2>{pt ? 'Percurso' : 'Path'}</h2><span class="rule"></span><span class="hint">{pt ? 'quatro eras, uma direcção' : 'four eras, one direction'}</span></div>
+			<ol class="eras">
+				{eras.map((e, i) => (
+					<li class="card era" style={`--i:${i + 2}`}>
+						<span class="seq-label">//{e.seq}</span>
+						<h3>{e.title}</h3>
+						<p>{e.body}</p>
+					</li>
+				))}
+			</ol>
+		</section>
+
+		<section class="grid2">
+			<div class="card" style="--i:6">
+				<div class="stitle"><span class="idx">//</span><h2>{pt ? 'O que construo' : 'What I build'}</h2><span class="rule"></span></div>
+				<dl class="builds">
+					{builds.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+				</dl>
+				<div class="stack">{stack.map((x) => <span class="tag">{x}</span>)}</div>
+			</div>
+			<aside class="verdict" style="--i:7">
 				<span class="seq-label kicker">{pt ? 'regras da casa' : 'house rules'}</span>
 				<ul>
 					{pt ? (
 						<>
-							<li>Uma afirmação forte exige um método forte. Se só fiz grep, digo que só fiz grep.</li>
-							<li>Falhas de terceiros só são publicadas depois de divulgação responsável.</li>
-							<li>Erros corrigem-se em público: o histórico de cada artigo mostra o que mudou e quando.</li>
-							<li>Sem trackers nem cookies. O código está no GitHub e aceita correcções por pull request.</li>
+							<li><b>Security AI first.</b> Guardrails e limites desde o primeiro dia. Um agente em produção sem controlo é uma bomba-relógio.</li>
+							<li><b>Observabilidade por defeito.</b> Se não consegues monitorizar, não devias ter em produção.</li>
+							<li><b>Orientação a ROI.</b> Métricas que importam, não dashboards bonitos.</li>
+							<li><b>Higiene epistémica.</b> Cada afirmação tem fonte. Uma afirmação forte exige um método forte: se só fiz grep, digo que só fiz grep.</li>
+							<li>Falhas de terceiros só depois de divulgação responsável. Erros corrigem-se em público, no histórico de cada artigo.</li>
 						</>
 					) : (
 						<>
-							<li>A strong claim needs a strong method. If all I did was grep, I say I only grepped.</li>
-							<li>Third-party vulnerabilities are published only after responsible disclosure.</li>
-							<li>Mistakes are fixed in public: each article's history shows what changed and when.</li>
-							<li>No trackers, no cookies. The code is on GitHub and accepts corrections by pull request.</li>
+							<li><b>Security AI first.</b> Guardrails and limits from day one. An uncontrolled agent in production is a time bomb.</li>
+							<li><b>Observability by default.</b> If you cannot monitor it, it should not be in production.</li>
+							<li><b>ROI first.</b> Metrics that matter, not pretty dashboards.</li>
+							<li><b>Epistemic hygiene.</b> Every claim has a source. A strong claim needs a strong method: if all I did was grep, I say I only grepped.</li>
+							<li>Third-party vulnerabilities only after responsible disclosure. Mistakes are fixed in public, in each article's history.</li>
 						</>
 					)}
 				</ul>
 			</aside>
-		</div>
+		</section>
+
+		<p class="mono foot">
+			{pt ? 'Este site: ' : 'This site: '}<a href={AUTHOR.repo} rel="noopener">{ui.footer_source}</a> · <a href={href(locale, 'areas')}>{ui.areas_title}</a> · <a href={href(locale, 'rss.xml')}>RSS</a>
+		</p>
 	</article>
 </Base>
 
 <style>
 	header {
 		margin-bottom: 1.6rem;
-		max-width: 56rem;
+		max-width: 60rem;
 	}
 	header h1 {
 		margin-top: 0.5rem;
 	}
-	.grid {
+	.today {
+		margin-bottom: 1.6rem;
+	}
+	.today-grid {
 		display: grid;
-		grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+		gap: 1.5rem 2.5rem;
+		align-items: start;
+	}
+	.today .prose {
+		font-size: 0.98rem;
+	}
+	.today .prose p:last-child {
+		margin-bottom: 0;
+	}
+	.find {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+		padding: 14px;
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		background: var(--surface2);
+	}
+	.find .btn {
+		width: 100%;
+		justify-content: center;
+	}
+	.find .mono {
+		margin: 4px 0 0;
+	}
+	.path {
+		margin-bottom: 1.6rem;
+	}
+	.eras {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+		gap: 12px;
+	}
+	.era h3 {
+		margin: 6px 0 8px;
+	}
+	.era p {
+		margin: 0;
+		color: var(--muted);
+		font-size: 0.92rem;
+	}
+	.grid2 {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
 		gap: 12px;
 		align-items: start;
+	}
+	.builds {
+		margin: 4px 0 14px;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+	.builds dt {
+		font-weight: 600;
+	}
+	.builds dd {
+		margin: 2px 0 0;
+		color: var(--muted);
+		font-size: 0.92rem;
+	}
+	.stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		padding-top: 12px;
+		border-top: 1px solid var(--line);
 	}
 	.verdict ul {
 		margin: 0;
 		padding-left: 1.1em;
 		color: var(--fg);
-		font-size: 0.95rem;
+		font-size: 0.93rem;
 	}
 	.verdict li + li {
-		margin-top: 0.5em;
+		margin-top: 0.55em;
+	}
+	.foot {
+		margin: 1.6rem 0 0;
 	}
 	@media (max-width: 860px) {
-		.grid {
+		.today-grid,
+		.grid2 {
 			grid-template-columns: 1fr;
 		}
 	}

@@ -57,6 +57,13 @@ export function profilePageLd(locale: Locale, url: string) {
 		url,
 		inLanguage: SITE[locale].locale,
 		dateModified: new Date().toISOString().slice(0, 10),
-		mainEntity: { ...person(), description: SITE[locale].description, knowsAbout: ['AI agent security', 'AI observability', 'MCP', 'n8n', 'OpenTelemetry GenAI'] },
+		mainEntity: {
+			...person(),
+			description: SITE[locale].description,
+			jobTitle: locale === 'pt' ? 'Process Automation & Agentic AI' : 'Process Automation & Agentic AI',
+			worksFor: { '@type': 'Organization', name: AUTHOR.company.name, url: AUTHOR.company.url },
+			address: { '@type': 'PostalAddress', addressLocality: 'Porto', addressCountry: 'PT' },
+			knowsAbout: ['Agentic AI', 'Process automation', 'AI agent security', 'AI observability', 'MCP', 'n8n', 'Token economics', 'Performance marketing'],
+		},
 	};
 }
