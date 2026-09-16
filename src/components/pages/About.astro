@@ -15,16 +15,16 @@ const url = new URL(Astro.url.pathname, Astro.site).toString();
 
 const eras = pt
 	? [
-			{ seq: '01', title: 'Campanhas e dados', body: 'Comecei em campanhas de Google e Meta Ads. Passei por analytics, BI e forecasting. Foi aí que aprendi a ler um negócio pelos números e a desconfiar de dashboards que ninguém consulta.' },
-			{ seq: '02', title: 'Performance marketing', body: 'Contas multi-mercado, orçamentos com regra, atribuição que tinha de bater com o BI do cliente. Quanto mais campanhas optimizava, mais processos manuais encontrava à volta: reporting que demorava horas, dados copiados entre sistemas, decisões por intuição.' },
-			{ seq: '03', title: 'Automação de processos', body: 'Resolvi automatizar isso tudo. Workflows n8n em produção, integrações API multi-sistema, pipelines de dados com logs, métricas e alertas desde o primeiro dia. Idempotência, retries e runbooks deixaram de ser vocabulário de engenharia e passaram a ser o que separa o que aguenta do que cai.' },
-			{ seq: '04', title: 'IA agêntica em produção', body: 'Hoje desenho e opero agentes de IA que executam trabalho real: com ferramentas, memória, supervisão e limites explícitos. Construí uma engine de conhecimento (Prism) que transforma cada projecto em padrões reutilizáveis, servidores MCP para as plataformas com que trabalho, e o pipeline que produz este laboratório. A pergunta deixou de ser "funciona?" e passou a ser "é seguro, é observável e prova valor?".' },
+			{ seq: '01', title: 'Da clínica ao digital (2004 a 2010)', body: 'Comecei numa clínica de medicina desportiva, no chão da operação, como assistente de fisioterapia. Em 2006 passei a tratar do meio digital e da cadeia de abastecimento da mesma casa. Aprendi cedo que um processo que depende de uma pessoa lembrar-se é um processo que falha.' },
+			{ seq: '02', title: 'Performance marketing (2009 a 2021)', body: 'Onze anos a gerir PPC e marketing digital na Clínica do Dragão, centro médico de excelência da FIFA, e na sua academia. Analytics, BI, forecasting, streaming de jornadas científicas. Google Ads Product Specialist. Quanto mais campanhas optimizava, mais processos manuais encontrava à volta: reporting que demorava horas, dados copiados entre sistemas, decisões por intuição.' },
+			{ seq: '03', title: 'Escala e equipa (2021 a 2025)', body: 'Na Wise Pirates: contas de banca, cosmética, indústria e saúde como senior PPC, e depois a liderar uma equipa de 18 campaign managers com a missão de pôr cada decisão a assentar em dados. R&D em gestão avançada de feeds. Formador de Google Ads e Google Shopping na WIT Academy. Foi aqui que decidi automatizar tudo o que era repetível.' },
+			{ seq: '04', title: 'Automação e IA agêntica (2025 até hoje)', body: 'Head of Process Automation & Agentic desde Maio de 2025 e Operational Board Member desde Junho de 2026, no eixo de tecnologia e infraestrutura. Agentes com ferramentas, memória, supervisão e limites explícitos; uma engine de conhecimento (Prism) que transforma cada projecto em padrões reutilizáveis; servidores MCP; e o pipeline que produz este laboratório. A pergunta deixou de ser "funciona?" e passou a ser "é seguro, é observável e prova valor?".' },
 		]
 	: [
-			{ seq: '01', title: 'Campaigns and data', body: 'I started in Google and Meta Ads campaigns, then analytics, BI and forecasting. That is where I learned to read a business through its numbers, and to distrust dashboards nobody opens.' },
-			{ seq: '02', title: 'Performance marketing', body: 'Multi-market accounts, rule-based budgets, attribution that had to reconcile with the client\'s BI. The more campaigns I optimised, the more manual processes I found around them: reporting that took hours, data copied between systems, decisions by gut feeling.' },
-			{ seq: '03', title: 'Process automation', body: 'So I automated all of it. n8n workflows in production, multi-system API integrations, data pipelines with logs, metrics and alerts from day one. Idempotency, retries and runbooks stopped being engineering vocabulary and became what separates what holds from what falls.' },
-			{ seq: '04', title: 'Agentic AI in production', body: 'Today I design and operate AI agents that do real work: with tools, memory, supervision and explicit limits. I built a knowledge engine (Prism) that turns every project into reusable patterns, MCP servers for the platforms I work with, and the pipeline that produces this lab. The question stopped being "does it work?" and became "is it safe, observable, and does it prove value?".' },
+			{ seq: '01', title: 'From the clinic to digital (2004 to 2010)', body: 'I started at a sports medicine clinic, on the operations floor, as a physical therapist assistant. In 2006 I took over digital media and the supply chain of the same house. I learned early that a process that depends on someone remembering is a process that fails.' },
+			{ seq: '02', title: 'Performance marketing (2009 to 2021)', body: 'Eleven years running PPC and digital marketing at Clínica do Dragão, a FIFA Medical Centre of Excellence, and its academy. Analytics, BI, forecasting, live streaming of scientific conferences. Google Ads Product Specialist. The more campaigns I optimised, the more manual processes I found around them: reporting that took hours, data copied between systems, decisions by gut feeling.' },
+			{ seq: '03', title: 'Scale and team (2021 to 2025)', body: 'At Wise Pirates: banking, cosmetics, industry and healthcare accounts as senior PPC, then leading a team of 18 campaign managers with one mission: every decision grounded in data. R&D on advanced feed management. Google Ads and Google Shopping trainer at WIT Academy. This is where I decided to automate everything repeatable.' },
+			{ seq: '04', title: 'Automation and agentic AI (2025 to today)', body: 'Head of Process Automation & Agentic since May 2025 and Operational Board Member since June 2026, on the technology and infrastructure track. Agents with tools, memory, supervision and explicit limits; a knowledge engine (Prism) that turns every project into reusable patterns; MCP servers; and the pipeline that produces this lab. The question stopped being "does it work?" and became "is it safe, observable, and does it prove value?".' },
 		];
 
 const builds = pt
@@ -39,6 +39,38 @@ const builds = pt
 			['Observability by default', 'Structured logs, a trace per run, metrics and alerts that wake up before the client complains.'],
 			['Automation that proves value', 'Every automation must show euros saved or hours recovered. Less theatre, more production.'],
 			['Productisation', 'Turning what works for one client into a repeatable product: knowledge engine, MCP servers, reporting pipelines, quoting agents.'],
+		];
+
+const timeline = pt
+	? [
+			{ y: '2026', role: 'Operational Board Member', org: 'Wise Pirates', note: 'eixo de tecnologia e infraestrutura' },
+			{ y: '2025', role: 'Head of Process Automation & Agentic', org: 'Wise Pirates', note: 'unidade de automação e IA agêntica' },
+			{ y: '2025', role: 'Pós-graduação AI Agents Manager and Programming', org: 'NoCode StartUp', note: 'formação' },
+			{ y: '2022 a 2025', role: 'PPC Team Leader', org: 'Wise Pirates', note: '18 campaign managers · R&D em gestão avançada de feeds' },
+			{ y: '2022', role: 'Formador', org: 'WIT Academy', note: 'Google Ads, Google Shopping, Digital Activation (até hoje)' },
+			{ y: '2021', role: 'Senior PPC Campaign Manager', org: 'Wise Pirates', note: 'banca, cosmética, indústria, saúde (até hoje)' },
+			{ y: '2021', role: 'Fundador', org: 'The Performance Agent', note: 'consultoria própria (até hoje)' },
+			{ y: '2021', role: 'Marketing e transformação digital', org: 'Grupo Sausport', note: 'e-commerce manager' },
+			{ y: '2020 a 2024', role: 'Google Ads Product Specialist (Bronze)', org: 'Google', note: 'programa de especialistas' },
+			{ y: '2012 a 2021', role: 'PPC Manager · Formador e coordenador de marketing digital', org: 'Academia Clínica do Dragão', note: 'curso para nutricionistas em 2021' },
+			{ y: '2009 a 2021', role: 'PPC Manager · Online Marketing Manager · Head of Digital Marketing', org: 'Clínica do Dragão, FIFA Medical Centre of Excellence', note: 'streaming das Jornadas Saúde Atlântica, 2014 a 2021' },
+			{ y: '2006 a 2021', role: 'Head of Digital Media · Head of Supply', org: 'Clínica Espregueira-Mendes', note: 'meio digital e cadeia de abastecimento' },
+			{ y: '2004 a 2010', role: 'Assistente de fisioterapia', org: 'Clínica Espregueira-Mendes', note: 'onde tudo começou' },
+		]
+	: [
+			{ y: '2026', role: 'Operational Board Member', org: 'Wise Pirates', note: 'technology and infrastructure track' },
+			{ y: '2025', role: 'Head of Process Automation & Agentic', org: 'Wise Pirates', note: 'automation and agentic AI unit' },
+			{ y: '2025', role: 'Postgraduate specialisation, AI Agents Manager and Programming', org: 'NoCode StartUp', note: 'education' },
+			{ y: '2022 to 2025', role: 'PPC Team Leader', org: 'Wise Pirates', note: '18 campaign managers · R&D on advanced feed management' },
+			{ y: '2022', role: 'Trainer', org: 'WIT Academy', note: 'Google Ads, Google Shopping, Digital Activation (to date)' },
+			{ y: '2021', role: 'Senior PPC Campaign Manager', org: 'Wise Pirates', note: 'banking, cosmetics, industry, healthcare (to date)' },
+			{ y: '2021', role: 'Founder', org: 'The Performance Agent', note: 'own consultancy (to date)' },
+			{ y: '2021', role: 'Marketing and digital transformation', org: 'Sausport Group', note: 'e-commerce manager' },
+			{ y: '2020 to 2024', role: 'Google Ads Product Specialist (Bronze)', org: 'Google', note: 'specialist programme' },
+			{ y: '2012 to 2021', role: 'PPC Manager · Digital marketing trainer and coordinator', org: 'Academia Clínica do Dragão', note: 'course for nutritionists in 2021' },
+			{ y: '2009 to 2021', role: 'PPC Manager · Online Marketing Manager · Head of Digital Marketing', org: 'Clínica do Dragão, FIFA Medical Centre of Excellence', note: 'live streaming of Jornadas Saúde Atlântica, 2014 to 2021' },
+			{ y: '2006 to 2021', role: 'Head of Digital Media · Head of Supply', org: 'Clínica Espregueira-Mendes', note: 'digital media and supply chain' },
+			{ y: '2004 to 2010', role: 'Physical therapist assistant', org: 'Clínica Espregueira-Mendes', note: 'where it all started' },
 		];
 
 const stack = ['n8n', 'MCP', 'Claude', 'Python', 'TypeScript', 'Supabase', 'Qdrant', 'Railway', 'Cloudflare', 'Google Ads', 'Meta Ads', 'OpenTelemetry'];
@@ -72,7 +104,7 @@ const stack = ['n8n', 'MCP', 'Claude', 'Python', 'TypeScript', 'Supabase', 'Qdra
 								Na <a href={AUTHOR.company.url} rel="noopener">Wise Pirates</a>, agência de marketing digital orientada a dados (desde 2017, mais de 100 pessoas e 500 marcas servidas), lidero a unidade de <strong>Process Automation &amp; Agentic AI</strong> e integro a direcção operacional com o eixo de tecnologia e infraestrutura.
 							</p>
 							<p>
-								O trabalho da unidade é pôr a inteligência a correr, não a ficar num relatório: workflows de automação empresarial, agentes especializados com RAG, memória e supervisão, pipelines de dados com observabilidade, e a camada de segurança que os deixa entrar em produção. É lá que aplico o que escrevo aqui, e é lá que me encontras para trabalhar.
+								O trabalho da unidade é pôr a inteligência a correr, não a ficar num relatório: workflows de automação empresarial, agentes especializados com RAG, memória e supervisão, pipelines de dados com observabilidade, e a camada de segurança que os deixa entrar em produção. Sou também formador de Google Ads e Google Shopping na WIT Academy. É na Wise que aplico o que escrevo aqui, e é lá que me encontras para trabalhar.
 							</p>
 						</>
 					) : (
@@ -81,7 +113,7 @@ const stack = ['n8n', 'MCP', 'Claude', 'Python', 'TypeScript', 'Supabase', 'Qdra
 								At <a href={AUTHOR.company.url} rel="noopener">Wise Pirates</a>, a data-driven digital marketing agency (since 2017, 100+ people and 500+ brands served), I lead the <strong>Process Automation &amp; Agentic AI</strong> unit and sit on the operational leadership with the technology and infrastructure axis.
 							</p>
 							<p>
-								The unit's job is to make intelligence run instead of sitting in a report: business automation workflows, specialised agents with RAG, memory and supervision, data pipelines with observability, and the security layer that lets them into production. That is where I apply what I write here, and where you can find me to work together.
+								The unit's job is to make intelligence run instead of sitting in a report: business automation workflows, specialised agents with RAG, memory and supervision, data pipelines with observability, and the security layer that lets them into production. I also train Google Ads and Google Shopping at WIT Academy. Wise is where I apply what I write here, and where you can find me to work together.
 							</p>
 						</>
 					)}
@@ -109,15 +141,28 @@ const stack = ['n8n', 'MCP', 'Claude', 'Python', 'TypeScript', 'Supabase', 'Qdra
 			</ol>
 		</section>
 
+		<section class="card timeline" style="--i:6">
+			<div class="stitle"><span class="idx">//</span><h2>{pt ? 'Cronologia' : 'Timeline'}</h2><span class="rule"></span><span class="hint">2004 → {new Date().getFullYear()}</span></div>
+			<ol class="tl">
+				{timeline.map((t) => (
+					<li>
+						<span class="mono y"><b>{t.y}</b></span>
+						<span class="what"><span class="role">{t.role}</span><span class="org mono">{t.org}</span>{t.note && <span class="note">{t.note}</span>}</span>
+					</li>
+				))}
+			</ol>
+			<p class="mono src">{pt ? 'Fonte: perfil LinkedIn, Setembro de 2026. Prémios internos: The Performance Pirate, The Trainer (duas vezes), The Resilient, Prémio Dedicação.' : 'Source: LinkedIn profile, September 2026. Internal awards: The Performance Pirate, The Trainer (twice), The Resilient, Dedication Award.'}</p>
+		</section>
+
 		<section class="grid2">
-			<div class="card" style="--i:6">
+			<div class="card" style="--i:7">
 				<div class="stitle"><span class="idx">//</span><h2>{pt ? 'O que construo' : 'What I build'}</h2><span class="rule"></span></div>
 				<dl class="builds">
 					{builds.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
 				</dl>
 				<div class="stack">{stack.map((x) => <span class="tag">{x}</span>)}</div>
 			</div>
-			<aside class="verdict" style="--i:7">
+			<aside class="verdict" style="--i:8">
 				<span class="seq-label kicker">{pt ? 'regras da casa' : 'house rules'}</span>
 				<ul>
 					{pt ? (
@@ -205,6 +250,57 @@ const stack = ['n8n', 'MCP', 'Claude', 'Python', 'TypeScript', 'Supabase', 'Qdra
 		margin: 0;
 		color: var(--muted);
 		font-size: 0.92rem;
+	}
+	.timeline {
+		margin-bottom: 12px;
+	}
+	.tl {
+		list-style: none;
+		margin: 6px 0 0;
+		padding: 0;
+	}
+	.tl li {
+		display: grid;
+		grid-template-columns: 7.5rem 1fr;
+		gap: 0.4rem 1.2rem;
+		padding: 10px 0;
+		border-top: 1px solid var(--line);
+		align-items: baseline;
+	}
+	.tl li:first-child {
+		border-top: 0;
+		padding-top: 0;
+	}
+	.tl .y b {
+		color: var(--accent);
+	}
+	.tl .what {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px 10px;
+		align-items: baseline;
+	}
+	.tl .role {
+		font-weight: 600;
+	}
+	.tl .org {
+		color: var(--muted);
+	}
+	.tl .note {
+		flex-basis: 100%;
+		color: var(--muted);
+		font-size: 0.86rem;
+	}
+	.src {
+		margin: 12px 0 0;
+		padding-top: 10px;
+		border-top: 1px solid var(--line);
+	}
+	@media (max-width: 640px) {
+		.tl li {
+			grid-template-columns: 1fr;
+			gap: 2px;
+		}
 	}
 	.grid2 {
 		display: grid;
