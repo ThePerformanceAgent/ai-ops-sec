@@ -3,7 +3,7 @@
 Segurança de agentes de IA e observabilidade, com prova. Blog estático em
 [Astro](https://astro.build), bilingue (PT-PT por defeito, EN em `/en/`), sem trackers.
 
-**Site:** https://theperformanceagent.github.io/ai-ops-sec/
+**Site:** https://andresilvalab.github.io/ai-ops-sec/
 
 ## Como está construído
 
@@ -28,7 +28,7 @@ npm run preview
 npm run check:private
 ```
 
-`SITE_URL` e `BASE_PATH` controlam o URL de produção (por defeito `https://theperformanceagent.github.io` e `/`; o workflow de deploy usa `/ai-ops-sec`).
+`SITE_URL` e `BASE_PATH` controlam o URL de produção (por defeito `https://andresilvalab.github.io` e `/`; o workflow de deploy usa `/ai-ops-sec`).
 
 ## Publicar um artigo
 

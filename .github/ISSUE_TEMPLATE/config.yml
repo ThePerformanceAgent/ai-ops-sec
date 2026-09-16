@@ -1,5 +1,5 @@
 blank_issues_enabled: true
 contact_links:
   - name: Falha de segurança neste site
-    url: https://github.com/ThePerformanceAgent/ai-ops-sec/security/advisories/new
+    url: https://github.com/andresilvalab/ai-ops-sec/security/advisories/new
     about: Usa o canal privado. Não abras issue público para vulnerabilidades.

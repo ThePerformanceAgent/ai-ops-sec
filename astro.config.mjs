@@ -5,7 +5,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // `site` e `base` vêm do ambiente para o mesmo código servir o GitHub Pages
 // (https://<user>.github.io/ai-ops-sec) e, mais tarde, um domínio próprio na raiz.
-const SITE = process.env.SITE_URL ?? 'https://theperformanceagent.github.io';
+const SITE = process.env.SITE_URL ?? 'https://andresilvalab.github.io';
 const BASE = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
