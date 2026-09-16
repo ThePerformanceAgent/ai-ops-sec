@@ -23,7 +23,8 @@ const posts = defineCollection({
 			heroImage: image().optional(),
 			heroAlt: z.string().optional(),
 			cover: z.enum(ANIMATION_IDS).optional(),
-			status: z.enum(['draft', 'review', 'published']).default('draft'),
+			status: z.enum(['draft', 'review', 'approved', 'published']).default('draft'),
+			scheduledFor: z.coerce.date().optional(),
 			sources: z
 				.array(z.object({ title: z.string(), url: z.string().url(), accessed: z.coerce.date().optional() }))
 				.default([]),
