@@ -5,6 +5,7 @@ import PostFooter from '../components/PostFooter.astro';
 import TraceRail from '../components/TraceRail.astro';
 import Callout from '../components/mdx/Callout.astro';
 import Redacted from '../components/mdx/Redacted.astro';
+import InlineAnimation from '../components/mdx/InlineAnimation.astro';
 import { Image } from 'astro:assets';
 import CoverAnimation from '../components/CoverAnimation.astro';
 import type { Locale } from '../consts';
@@ -68,7 +69,7 @@ const area = areaOf(d.area);
 					</figure>
 				)}
 				<div class="prose">
-					<Content components={{ Callout, Redacted }} />
+					<Content components={{ Callout, Redacted, InlineAnimation }} />
 				</div>
 				<PostFooter post={post} url={url} />
 			</div>
