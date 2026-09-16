@@ -14,6 +14,7 @@ export const ANIMATION_IDS = [
 	'tokenizer-split',
 	'agentic-alpha',
 	'hidden-balance',
+	'attack-chain',
 	'default-gradient',
 ] as const;
 export type AnimationId = (typeof ANIMATION_IDS)[number];
@@ -31,5 +32,6 @@ export const ANIMATION_LABELS: Record<AnimationId, string> = {
 	'tokenizer-split': 'Tokenizer split (PT vs EN)',
 	'agentic-alpha': 'Agentic alpha (1 visible · 10 hidden)',
 	'hidden-balance': 'Hidden balance (cache ledger)',
+	'attack-chain': 'Attack chain: untrusted input, model, tool, outbound (input to consequence)',
 	'default-gradient': 'Gradient',
 };

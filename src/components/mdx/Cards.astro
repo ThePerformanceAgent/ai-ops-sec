@@ -1,0 +1,105 @@
+---
+/* <Cards items={[{k, title, text, tag, tone}]} cols={4} />: grelha de cartões do site (raio 16,
+   ponto de estado, etiqueta mono). tone: 'neg' (ponto vermelho) · 'ok' (ponto esmeralda) · 'amber'
+   · 'gate' (borda superior esmeralda). Entram com fade-up escalonado. */
+interface Item { k?: string; title: string; text: string; tag?: string; tone?: 'neg' | 'ok' | 'amber' | 'gate' | 'none' }
+interface Props { items: Item[]; cols?: 2 | 3 | 4 | 5 }
+const { items, cols = 4 } = Astro.props;
+const dot = { neg: 'var(--neg)', ok: 'var(--accent)', amber: 'var(--amber)', gate: 'transparent', none: 'transparent' };
+---
+
+<ul class="cards" style={`--cols:${cols}`}>
+	{items.map((it, i) => (
+		<li class:list={['c', it.tone ?? 'none']} style={`--i:${i}; --dot:${dot[it.tone ?? 'none']}`}>
+			{it.k && <span class="k">{it.k}</span>}
+			<h4>{it.title}</h4>
+			<p set:html={it.text} />
+			{it.tag && <span class="tag">{it.tag}</span>}
+		</li>
+	))}
+</ul>
+
+<style>
+	.cards {
+		list-style: none;
+		margin: 1.6em 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+		gap: 12px;
+	}
+	.c {
+		position: relative;
+		min-width: 0;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		padding: 16px 16px 14px;
+		box-shadow: var(--shadow);
+		animation: fade-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+		animation-delay: calc(var(--i, 0) * 90ms);
+	}
+	.c.neg::after,
+	.c.ok::after,
+	.c.amber::after {
+		content: '';
+		position: absolute;
+		top: 14px;
+		right: 14px;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--dot);
+		box-shadow: 0 0 12px var(--dot);
+	}
+	.c.gate {
+		border-top: 3px solid var(--accent);
+	}
+	.k {
+		display: block;
+		font: 600 15px/1 var(--font-mono);
+		color: var(--amber);
+		margin-bottom: 8px;
+	}
+	.gate .k {
+		color: var(--accent);
+	}
+	h4 {
+		margin: 0 0 5px;
+		font-size: 0.95rem;
+		letter-spacing: -0.01em;
+		padding-right: 14px;
+	}
+	.c p {
+		margin: 0;
+		font-size: 0.84rem;
+		line-height: 1.45;
+		color: var(--muted);
+	}
+	.c p :global(b),
+	.c p :global(strong) {
+		color: var(--fg);
+		font-weight: 600;
+	}
+	.tag {
+		display: inline-block;
+		margin-top: 10px;
+		font: 600 9.5px var(--font-mono);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: 3px 8px;
+		border-radius: 999px;
+		background: var(--accent-soft);
+		color: var(--accent);
+	}
+	@media (max-width: 900px) {
+		.cards {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	@media (max-width: 520px) {
+		.cards {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>
