@@ -240,6 +240,47 @@ const nBlocks = variant === 'hero' ? 6 : 5, bw = 26, bgap = (200 - 20 - nBlocks 
 			</g>
 		)}
 
+		{id === 'attack-chain' && (
+			<g>
+				{/* documento de entrada com uma linha escondida a vermelho */}
+				<g>
+					<rect x="12" y="34" width="40" height="52" rx="3" fill="var(--anim-card)" stroke="var(--anim-soft)" stroke-width="0.8" />
+					{[44, 52, 60, 68].map((y) => <line x1="18" y1={y} x2="46" y2={y} stroke="var(--anim-soft)" stroke-width="1.2" opacity="0.55" />)}
+					<line x1="18" y1="78" x2="46" y2="78" stroke="var(--neg)" stroke-width="1.6" stroke-dasharray="2 1.5">
+						<animate attributeName="opacity" values="0.15;1;1;0.15" dur="3.2s" repeatCount="indefinite" />
+					</line>
+					<text x="32" y="98" text-anchor="middle" font-size="5" fill="var(--anim-ink)" opacity="0.6" style={M}>{variant === 'hero' ? 'untrusted input' : 'input'}</text>
+				</g>
+				{/* modelo: nó com anel a pulsar */}
+				<g>
+					<circle cx="86" cy="60" r="14" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.9" />
+					<circle cx="86" cy="60" r="14" fill="none" stroke="var(--anim-accent)" stroke-width="0.8" opacity="0.5"><animate attributeName="r" values="14;19;14" dur="3.2s" repeatCount="indefinite" /><animate attributeName="opacity" values="0.5;0;0.5" dur="3.2s" repeatCount="indefinite" /></circle>
+					{[[80, 54], [92, 54], [86, 62], [80, 66], [92, 66]].map(([x, y], i) => <circle cx={x} cy={y} r="1.6" fill="var(--anim-accent)"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.2s" begin={`${i * 0.3}s`} repeatCount="indefinite" /></circle>)}
+					{[[80, 54, 86, 62], [92, 54, 86, 62], [86, 62, 80, 66], [86, 62, 92, 66], [80, 54, 92, 54]].map(([x1, y1, x2, y2]) => <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--anim-soft)" stroke-width="0.4" opacity="0.6" />)}
+					<text x="86" y="84" text-anchor="middle" font-size="5" fill="var(--anim-ink)" opacity="0.6" style={M}>model</text>
+				</g>
+				{/* ferramenta: bloco que fica vermelho quando o pacote chega */}
+				<g>
+					<rect x="118" y="48" width="34" height="24" rx="3" fill="var(--anim-card)" stroke="var(--anim-soft)" stroke-width="0.8" />
+					<rect x="118" y="48" width="34" height="24" rx="3" fill="var(--neg)" opacity="0"><animate attributeName="opacity" values="0;0;0.22;0.22;0" keyTimes="0;0.55;0.62;0.9;1" dur="3.2s" repeatCount="indefinite" /></rect>
+					<text x="135" y="62" text-anchor="middle" font-size="5.2" fill="var(--anim-ink)" style={M}>forward()</text>
+					<text x="135" y="84" text-anchor="middle" font-size="5" fill="var(--anim-ink)" opacity="0.6" style={M}>tool</text>
+				</g>
+				{/* saída externa */}
+				<g>
+					<circle cx="182" cy="60" r="6" fill="none" stroke="var(--neg)" stroke-width="0.9" stroke-dasharray="2 1.5" opacity="0.8" />
+					<text x="182" y="84" text-anchor="middle" font-size="5" fill="var(--anim-ink)" opacity="0.6" style={M}>outbound</text>
+				</g>
+				{/* ligações e pacote a viajar: verde até ao modelo, vermelho depois */}
+				<line x1="52" y1="60" x2="72" y2="60" stroke="var(--anim-soft)" stroke-width="0.6" opacity="0.6" />
+				<line x1="100" y1="60" x2="118" y2="60" stroke="var(--anim-soft)" stroke-width="0.6" opacity="0.6" />
+				<line x1="152" y1="60" x2="176" y2="60" stroke="var(--anim-soft)" stroke-width="0.6" opacity="0.6" />
+				<circle r="2" fill="var(--anim-accent)"><animateMotion dur="3.2s" repeatCount="indefinite" path="M52 60 L72 60" keyPoints="0;1;1" keyTimes="0;0.3;1" calcMode="linear" /><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.28;0.3;1" dur="3.2s" repeatCount="indefinite" /></circle>
+				<circle r="2" fill="var(--neg)"><animateMotion dur="3.2s" repeatCount="indefinite" path="M100 60 L118 60" keyPoints="0;0;1;1" keyTimes="0;0.4;0.6;1" calcMode="linear" /><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.4;0.41;0.58;0.6;1" dur="3.2s" repeatCount="indefinite" /></circle>
+				<circle r="2" fill="var(--neg)"><animateMotion dur="3.2s" repeatCount="indefinite" path="M152 60 L176 60" keyPoints="0;0;1;1" keyTimes="0;0.65;0.9;1" calcMode="linear" /><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.65;0.66;0.9;1" dur="3.2s" repeatCount="indefinite" /></circle>
+			</g>
+		)}
+
 		{id === 'hidden-balance' && (
 			<g style={M}>
 				<rect x="6" y="6" width="92" height="14" rx="2" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.7" />

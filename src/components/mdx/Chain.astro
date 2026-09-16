@@ -1,0 +1,153 @@
+---
+/* <Chain title="…" via="…" stages={[{k, text, tone}]} quote="…" />: cadeia de ataque em 4 etapas
+   (entrada · o modelo pensa · se obedecer · consequência). Etapas entram em sequência (fade-up
+   escalonado, desliga com prefers-reduced-motion); sem JS fica o estado final. Look do site. */
+interface Stage { k: string; text: string; tone?: 'in' | 'mind' | 'bad' }
+interface Props { title: string; via?: string; label?: string; stages: Stage[]; quote?: string; quoteNote?: string }
+const { title, via, label, stages, quote, quoteNote } = Astro.props;
+---
+
+<section class="chain">
+	<header>
+		{label && <span class="lbl">{label}</span>}
+		<h3>{title}</h3>
+		{via && <span class="via">{via}</span>}
+	</header>
+	<ol class="flow">
+		{stages.map((s, i) => (
+			<li class:list={['stage', s.tone ?? 'in']} style={`--i:${i}`}>
+				<span class="k">{s.k}</span>
+				<p set:html={s.text} />
+			</li>
+		))}
+	</ol>
+	{quote && <p class="quote"><span set:html={quote} />{quoteNote && <span class="note"> · {quoteNote}</span>}</p>}
+</section>
+
+<style>
+	.chain {
+		margin: 1.8em 0;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		padding: 18px 20px 18px;
+		box-shadow: var(--shadow);
+	}
+	header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 10px 12px;
+		margin-bottom: 14px;
+	}
+	.lbl {
+		font: 600 10.5px var(--font-mono);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--neg);
+	}
+	h3 {
+		margin: 0;
+		font-size: 1.05rem;
+		letter-spacing: -0.01em;
+	}
+	.via {
+		margin-left: auto;
+		font: 500 10px var(--font-mono);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--muted);
+		background: var(--surface3);
+		padding: 4px 9px;
+		border-radius: 999px;
+	}
+	.flow {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 10px;
+	}
+	.stage {
+		position: relative;
+		min-width: 0;
+		background: var(--surface2);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		padding: 11px 12px 12px;
+		animation: fade-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+		animation-delay: calc(var(--i, 0) * 180ms + 120ms);
+	}
+	.stage + .stage::before {
+		content: '→';
+		position: absolute;
+		left: -11px;
+		top: 12px;
+		font: 400 12px var(--font-mono);
+		color: var(--faint);
+		background: var(--surface);
+		padding: 0 1px;
+	}
+	.stage.mind {
+		border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+	}
+	.stage.bad {
+		border-color: color-mix(in srgb, var(--neg) 45%, var(--line));
+	}
+	.k {
+		display: block;
+		font: 600 9.5px var(--font-mono);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--faint);
+		margin-bottom: 6px;
+	}
+	.mind .k {
+		color: var(--accent);
+	}
+	.bad .k {
+		color: var(--neg);
+	}
+	.stage p {
+		margin: 0;
+		font-size: 0.86rem;
+		line-height: 1.45;
+		color: var(--muted);
+	}
+	.stage p :global(b),
+	.stage p :global(strong) {
+		color: var(--fg);
+		font-weight: 600;
+	}
+	.quote {
+		margin: 12px 0 0;
+		font: 400 11.5px/1.55 var(--font-mono);
+		color: var(--muted);
+		background: var(--code-bg);
+		border: 1px dashed var(--line2);
+		border-radius: 10px;
+		padding: 9px 12px;
+		overflow-wrap: anywhere;
+	}
+	.quote :global(b) {
+		color: var(--neg);
+		font-weight: 600;
+	}
+	.quote .note {
+		color: var(--faint);
+	}
+	@media (max-width: 720px) {
+		.flow {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.stage + .stage::before {
+			content: '↓';
+			left: 12px;
+			top: -13px;
+		}
+		.via {
+			margin-left: 0;
+		}
+	}
+</style>
