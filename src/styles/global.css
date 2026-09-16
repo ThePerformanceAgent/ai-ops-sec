@@ -588,14 +588,65 @@ a.card:hover {
 	border-radius: 12px;
 }
 @media (max-width: 640px) {
-	/* no telemóvel a tabela desliza dentro do cartão em vez de esmagar as colunas em palavras soltas */
-	.prose table th,
-	.prose table td {
-		min-width: 11rem;
+	/* no telemóvel uma tabela com 3+ colunas empilha: cada linha vira um bloco e cada célula leva por cima
+	   o nome da sua coluna (data-label, posto no build por rehype-table-labels). Tabelas de 2 colunas
+	   ficam como estão: cabem. */
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) {
+		display: block;
+		overflow: visible;
 	}
-	.prose table th:first-child,
-	.prose table td:first-child {
-		min-width: 9rem;
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) thead {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+	}
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) tbody,
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) tr,
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) td {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) tr {
+		padding: 0.4em 0 0.6em;
+		border-bottom: 1px solid var(--line);
+	}
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) tr:last-child {
+		border-bottom: 0;
+	}
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) td {
+		border-bottom: 0;
+		padding: 0.35em 0.9em;
+		min-width: 0;
+	}
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) td::before {
+		content: attr(data-label);
+		display: block;
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.04em;
+		color: var(--accent);
+		margin-bottom: 0.2em;
+	}
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) td:first-child {
+		font-weight: 600;
+		color: var(--fg);
+	}
+	/* célula numérica (alinhada à direita no Markdown): etiqueta à esquerda, valor à direita, numa só linha */
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) td[style*='right'] {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+		text-align: right !important;
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
+	}
+	.prose table[data-cols]:not([data-cols='1']):not([data-cols='2']) td[style*='right']::before {
+		margin-bottom: 0;
+		flex: 0 0 auto;
 	}
 }
 .prose th,
