@@ -3,9 +3,8 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 
-// `site` e `base` vêm do ambiente para o mesmo código servir o GitHub Pages
-// (https://<user>.github.io/ai-ops-sec) e, mais tarde, um domínio próprio na raiz.
-const SITE = process.env.SITE_URL ?? 'https://andresilvalab.github.io';
+// `site` e `base` vêm do ambiente. Produção: https://andresilvalab.com na raiz (Cloudflare Workers).
+const SITE = process.env.SITE_URL ?? 'https://andresilvalab.com';
 const BASE = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({

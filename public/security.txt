@@ -2,6 +2,6 @@
 Contact: https://github.com/andresilvalab/ai-ops-sec/security/advisories/new
 Expires: 2027-09-30T00:00:00.000Z
 Preferred-Languages: pt, en
-Canonical: https://andresilvalab.github.io/ai-ops-sec/security.txt
-Canonical: https://andresilvalab.github.io/ai-ops-sec/.well-known/security.txt
+Canonical: https://andresilvalab.com/.well-known/security.txt
+Canonical: https://andresilvalab.com/security.txt
 Policy: https://github.com/andresilvalab/ai-ops-sec/blob/main/SECURITY.md

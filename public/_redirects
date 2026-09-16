@@ -1,0 +1,4 @@
+# Um só domínio canónico: tudo o resto faz 301 para andresilvalab.com
+https://www.andresilvalab.com/* https://andresilvalab.com/:splat 301
+https://andresilvalab.dev/* https://andresilvalab.com/:splat 301
+https://www.andresilvalab.dev/* https://andresilvalab.com/:splat 301
