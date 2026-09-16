@@ -25,7 +25,7 @@ jobs:
         env:
           SITE_URL: https://theperformanceagent.github.io
           BASE_PATH: /ai-ops-sec
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
   deploy:
