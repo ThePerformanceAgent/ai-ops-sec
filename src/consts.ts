@@ -53,7 +53,6 @@ export const UI = {
 		verified_on: 'verificado a',
 		sources: 'fontes',
 		sources_title: 'Fontes',
-		verified_title: 'O que foi verificado, e onde',
 		changelog_title: 'Histórico de alterações',
 		accessed: 'consultado a',
 		lang_switch: 'Read in English',
@@ -71,7 +70,7 @@ export const UI = {
 		how_built_items: [
 			'Código e artigos num repositório público. Cada alteração entra por pull request revisto.',
 			'Sem trackers, sem cookies, sem scripts de terceiros. HTML estático servido por CDN.',
-			'Cada artigo lista as fontes, o que foi verificado e onde, e o que mudou depois de publicado.',
+			'Cada artigo lista as fontes e o que mudou depois de publicado.',
 			'Erros corrigem-se em público, no histórico do próprio artigo.',
 		],
 		not_found: 'Página não encontrada',
@@ -107,7 +106,6 @@ export const UI = {
 		verified_on: 'verified on',
 		sources: 'sources',
 		sources_title: 'Sources',
-		verified_title: 'What was verified, and where',
 		changelog_title: 'Change history',
 		accessed: 'accessed',
 		lang_switch: 'Ler em português',
@@ -125,7 +123,7 @@ export const UI = {
 		how_built_items: [
 			'Code and articles live in a public repository. Every change lands through a reviewed pull request.',
 			'No trackers, no cookies, no third-party scripts. Static HTML served from a CDN.',
-			'Every article lists its sources, what was verified and where, and what changed after publication.',
+			'Every article lists its sources and what changed after publication.',
 			'Mistakes are fixed in public, in the history of the article itself.',
 		],
 		not_found: 'Page not found',

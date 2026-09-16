@@ -1,5 +1,5 @@
 ---
-/* Rodapé de prova: o que foi verificado e onde, fontes, histórico, citação. */
+/* Rodapé de prova: fontes, histórico, citação. A verificação factual fica no frontmatter (verified), não se mostra. */
 import { AUTHOR, type Locale } from '../consts';
 import { formatDate, t } from '../lib/i18n';
 import { slugOf, versionOf, type Post } from '../lib/posts';
@@ -16,12 +16,6 @@ const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
 ---
 
 <footer class="proof">
-	{d.verified.length > 0 && (
-		<section class="verdict" aria-labelledby="verified">
-			<span class="seq-label kicker" id="verified">{ui.verified_title}{d.verifiedOn && <> · {formatDate(d.verifiedOn, locale)}</>}</span>
-			<ul>{d.verified.map((v) => <li>{v}</li>)}</ul>
-		</section>
-	)}
 	{d.sources.length > 0 && (
 		<section class="card" aria-labelledby="sources" style="--i:3">
 			<div class="stitle"><span class="idx">//</span><h2 id="sources">{ui.sources_title}</h2><span class="rule"></span><span class="hint">{d.sources.length}</span></div>
