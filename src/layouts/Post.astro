@@ -91,6 +91,11 @@ const area = areaOf(d.area);
 		gap: 3rem;
 		align-items: start;
 	}
+	/* filhos de grelha nascem com min-width:auto: um slug longo na rail alargava a página inteira no telemóvel */
+	.grid > :global(*) {
+		min-width: 0;
+		max-width: 100%;
+	}
 	figure {
 		margin: 0 0 2rem;
 	}
@@ -111,7 +116,7 @@ const area = areaOf(d.area);
 	}
 	@media (max-width: 960px) {
 		.grid {
-			grid-template-columns: 1fr;
+			grid-template-columns: minmax(0, 1fr);
 			gap: 2rem;
 		}
 	}
