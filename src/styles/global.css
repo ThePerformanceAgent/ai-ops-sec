@@ -187,6 +187,24 @@ p {
 	align-items: baseline;
 	gap: 12px;
 	margin: 0 0 12px;
+	min-width: 0;
+}
+.stitle h2 {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+@media (max-width: 480px) {
+	/* em ecrãs estreitos a linha decorativa cede primeiro e o título pode quebrar; nada empurra a margem */
+	.stitle {
+		flex-wrap: wrap;
+		row-gap: 4px;
+	}
+	.stitle .rule {
+		min-width: 24px;
+	}
+	.stitle .hint {
+		white-space: normal;
+	}
 }
 .stitle .idx {
 	font-family: var(--font-mono);
@@ -519,6 +537,38 @@ a.card:hover {
 	border: 1px solid var(--line);
 	border-radius: 12px;
 }
+/* tudo o que é media ou caixa fixa cabe na coluna: nada empurra a página para o lado no telemóvel */
+.prose svg,
+.prose video,
+.prose iframe,
+.prose canvas,
+.prose figure,
+.prose .anim,
+.prose .cover {
+	max-width: 100%;
+}
+.prose video,
+.prose iframe {
+	width: 100%;
+	height: auto;
+	display: block;
+	border-radius: 12px;
+}
+.prose iframe {
+	aspect-ratio: 16 / 9;
+}
+.prose p,
+.prose li,
+.prose h1,
+.prose h2,
+.prose h3,
+.prose blockquote {
+	overflow-wrap: break-word;
+}
+.prose a,
+.prose code {
+	overflow-wrap: anywhere;
+}
 .prose figure {
 	margin: 1.6em 0;
 }
@@ -533,8 +583,20 @@ a.card:hover {
 	font-size: 0.9em;
 	display: block;
 	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 	border: 1px solid var(--line);
 	border-radius: 12px;
+}
+@media (max-width: 640px) {
+	/* no telemóvel a tabela desliza dentro do cartão em vez de esmagar as colunas em palavras soltas */
+	.prose table th,
+	.prose table td {
+		min-width: 11rem;
+	}
+	.prose table th:first-child,
+	.prose table td:first-child {
+		min-width: 9rem;
+	}
 }
 .prose th,
 .prose td {

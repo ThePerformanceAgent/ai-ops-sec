@@ -71,10 +71,14 @@ const area = areaOf(d.area);
 		position: sticky;
 		top: 4.5rem;
 		align-self: start;
+		min-width: 0;
+	}
+	.rail > .card {
+		min-width: 0;
 	}
 	dl {
 		display: grid;
-		grid-template-columns: auto 1fr;
+		grid-template-columns: auto minmax(0, 1fr);
 		gap: 6px 12px;
 		margin: 10px 0 0;
 	}
@@ -83,8 +87,10 @@ const area = areaOf(d.area);
 	}
 	dd {
 		margin: 0;
+		min-width: 0;
 		color: var(--muted);
 		overflow-wrap: anywhere;
+		word-break: break-word;
 	}
 	dd a,
 	dd.ok {
@@ -124,7 +130,7 @@ const area = areaOf(d.area);
 		.rail {
 			position: static;
 			display: grid;
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 12px;
 		}
 		.toc {
@@ -136,7 +142,7 @@ const area = areaOf(d.area);
 	}
 	@media (max-width: 560px) {
 		.rail {
-			grid-template-columns: 1fr;
+			grid-template-columns: minmax(0, 1fr);
 		}
 	}
 </style>

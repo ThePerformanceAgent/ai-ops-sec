@@ -86,9 +86,20 @@ const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
 	}
 	.log li {
 		display: grid;
-		grid-template-columns: 7rem 1fr;
+		grid-template-columns: 7rem minmax(0, 1fr);
 		gap: 1rem;
 		color: var(--muted);
+	}
+	.log li span {
+		min-width: 0;
+		overflow-wrap: anywhere;
+	}
+	@media (max-width: 480px) {
+		.log li {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0.15rem 0;
+			margin-bottom: 0.6rem;
+		}
 	}
 	.log time {
 		color: var(--faint);
