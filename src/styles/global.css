@@ -711,3 +711,24 @@ a.card:hover {
 	white-space: nowrap;
 	border: 0;
 }
+
+/* figuras animadas dentro dos artigos (importadas do Tokenization Economy) */
+.anim-inline {
+	--anim-accent: var(--accent);
+	--anim-soft: color-mix(in srgb, var(--accent) 55%, var(--fg));
+	--anim-deep: color-mix(in srgb, var(--accent) 80%, var(--fg));
+	--anim-ink: var(--fg);
+	--anim-card: var(--surface3);
+	--anim-bg: var(--bg);
+	margin: 1.8em 0;
+	padding: 12px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: radial-gradient(120% 90% at 100% 0%, var(--accent-soft), transparent 60%), linear-gradient(135deg, var(--surface2), var(--surface));
+	overflow: hidden;
+}
+.anim-inline svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}

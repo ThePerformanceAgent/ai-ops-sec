@@ -3,7 +3,7 @@
    nomes ou ordem é só aqui. */
 import type { Locale } from '../consts';
 
-export type AreaKey = 'ai-ops-sec' | 'agentes' | 'automacao' | 'avaliacao' | 'governanca' | 'modelos';
+export type AreaKey = 'ai-ops-sec' | 'agentes' | 'automacao' | 'avaliacao' | 'governanca' | 'modelos' | 'tokenizacao';
 
 export interface Area {
 	key: AreaKey;
@@ -82,6 +82,17 @@ export const AREAS: Area[] = [
 			en: 'Open models on your own hardware, fine-tuning, inference costs, choosing between providers, data sovereignty.',
 		},
 		topics: { pt: ['modelos locais', 'MLX', 'fine-tuning', 'custos', 'soberania'], en: ['local models', 'MLX', 'fine-tuning', 'costs', 'sovereignty'] },
+	},
+	{
+		key: 'tokenizacao',
+		seq: '07',
+		name: { pt: 'Tokenização', en: 'Tokenization' },
+		short: { pt: 'O token como unidade económica da IA: o que custa, o que se poupa, o que se esconde', en: 'The token as the economic unit of AI: what it costs, what it saves, what it hides' },
+		description: {
+			pt: 'A série The Token Economy: os cinco preços de um token, a inflação silenciosa dos tokenizers, o multiplicador agêntico, o cache como balanço escondido, a crise dos tokens. Literacia financeira de IA para quem decide, com números reais.',
+			en: 'The Token Economy series: the five prices of a token, the silent tokenizer inflation, the agentic multiplier, cache as a hidden balance sheet, the token crunch. AI financial literacy for decision makers, with real numbers.',
+		},
+		topics: { pt: ['FinOps de IA', 'cache', 'tokenizers', 'custo por tarefa', 'CFO'], en: ['AI FinOps', 'cache', 'tokenizers', 'cost per task', 'CFO'] },
 	},
 ];
 
