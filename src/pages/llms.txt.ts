@@ -16,7 +16,7 @@ export async function GET({ site }: APIContext) {
 		'',
 		`> ${SITE.en.description}`,
 		'',
-		`Author: ${AUTHOR.name} (${AUTHOR.github}). Agentic AI lab; flagship area: AI Ops Sec (agent security and observability). Text licensed CC BY 4.0; code MIT. Every article lists its sources, what was verified (fact by fact, with the source) and a change history. Please cite the article URL and date.`,
+		`Author: ${AUTHOR.name} (${AUTHOR.github}). Agentic AI lab; flagship area: AI Ops Sec (agent security and observability). Text licensed CC BY 4.0; code MIT. Every article lists its sources and a change history. Please cite the article URL and date.`,
 		'',
 		'## Articles (Portuguese, primary)',
 		...(pt.length ? pt.map(line) : ['- (first article under review)']),
