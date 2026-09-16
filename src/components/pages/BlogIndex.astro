@@ -15,21 +15,24 @@ const posts = await getPosts(locale);
 
 <Base locale={locale} title={ui.all_posts} description={site(locale).description} alternatePath="blog">
 	<header class="head">
-		<p class="kicker">{ui.nav_blog}</p>
-		<h1>{ui.all_posts} <span class="mono count">{posts.length}</span></h1>
+		<p class="seq-label">//{ui.nav_blog}</p>
+		<h1>{ui.all_posts}</h1>
 	</header>
-	{posts.length === 0 ? <p class="lede">{ui.no_posts}</p> : <ul class="tracelist">{posts.map((p, i) => <PostRow post={p} index={i} />)}</ul>}
+	<section class="card" style="--i:1">
+		<div class="stitle"><span class="idx">//</span><h2>{ui.latest}</h2><span class="rule"></span><span class="hint">{posts.length}</span></div>
+		{posts.length === 0 ? <p class="empty">{ui.no_posts}</p> : <ul class="rows">{posts.map((p, i) => <PostRow post={p} index={i + 2} />)}</ul>}
+	</section>
 </Base>
 
 <style>
 	.head {
-		margin-bottom: 2rem;
+		margin-bottom: 1.4rem;
 	}
-	.count {
-		font-size: 0.5em;
-		vertical-align: middle;
+	.head h1 {
+		margin-top: 0.5rem;
 	}
-	.tracelist {
-		margin-left: 1.1rem;
+	.empty {
+		color: var(--muted);
+		margin: 0;
 	}
 </style>

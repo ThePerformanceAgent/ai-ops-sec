@@ -28,6 +28,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 		<BaseHead locale={locale} alternatePath={alternatePath} {...head} />
 	</head>
 	<body>
+		<!-- filtro de brilho neon partilhado (clone do index.html da Torre): usa a cor do próprio traço -->
+		<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+			<defs>
+				<filter id="hc-glow" filterUnits="userSpaceOnUse" x="-50%" y="-50%" width="200%" height="200%">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="b" />
+					<feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.6 0" result="g" />
+					<feMerge><feMergeNode in="g" /><feMergeNode in="SourceGraphic" /></feMerge>
+				</filter>
+			</defs>
+		</svg>
 		<a class="skip" href="#main">{ui.skip}</a>
 		<Header locale={locale} alternatePath={alternatePath} />
 		<main id="main" class="wrap main">
@@ -40,7 +50,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <style>
 	.main {
-		padding: clamp(2rem, 5vw, 4rem) 0 4rem;
+		padding: clamp(1.6rem, 4vw, 3rem) 0 4rem;
 		flex: 1;
 	}
 </style>

@@ -17,62 +17,90 @@ const url = new URL(Astro.url.pathname, Astro.site).toString();
 <Base locale={locale} title={ui.nav_about} description={s.description} alternatePath="about" jsonLd={[profilePageLd(locale, url)]}>
 	<article class="about">
 		<header>
-			<p class="kicker">{ui.nav_about}</p>
-			<h1>{pt ? <>Segurança e observabilidade de agentes, <em>com prova</em>.</> : <>Agent security and observability, <em>with evidence</em>.</>}</h1>
+			<p class="seq-label">//{ui.nav_about}</p>
+			<h1>{pt ? <>Um laboratório de IA agêntica, <em>com prova</em>.</> : <>An agentic AI lab, <em>with evidence</em>.</>}</h1>
 		</header>
-		<div class="prose">
-			{pt ? (
-				<>
-					<p>
-						Escrevo sobre o que acontece quando se põem agentes de IA a trabalhar em produção: que ferramentas lhes damos, o que
-						conseguem fazer com elas, como se observa o que fizeram, e como se ataca isso antes de outra pessoa o fazer.
-					</p>
-					<p>
-						O material vem de um stack real que opero (n8n, servidores MCP, modelos locais e comerciais, bases de dados com dados de
-						clientes). Tudo o que aqui aparece é anonimizado, e cada artigo lista as fontes, o que verifiquei à mão e o que mudou
-						desde que foi publicado.
-					</p>
-					<p>Sou o {AUTHOR.name}. Trabalho em automação de processos e IA agêntica, em Portugal.</p>
-					<h2>Regras da casa</h2>
-					<ul>
-						<li>Uma afirmação forte exige um método forte. Se só fiz grep, digo que só fiz grep.</li>
-						<li>Falhas de terceiros só são publicadas depois de divulgação responsável.</li>
-						<li>Erros corrigem-se em público: o histórico de cada artigo mostra o que mudou e quando.</li>
-						<li>O site não tem trackers nem cookies. O código está no GitHub e aceita correcções por pull request.</li>
-					</ul>
-				</>
-			) : (
-				<>
-					<p>
-						I write about what happens when AI agents are put to work in production: which tools we hand them, what they can do with
-						those tools, how to observe what they did, and how to attack all of it before someone else does.
-					</p>
-					<p>
-						The material comes from a real stack I operate (n8n, MCP servers, local and commercial models, databases holding client
-						data). Everything here is anonymised, and every article lists its sources, what I verified by hand, and what changed since
-						it was published.
-					</p>
-					<p>I am {AUTHOR.name}. I work in process automation and agentic AI, in Portugal.</p>
-					<h2>House rules</h2>
-					<ul>
-						<li>A strong claim needs a strong method. If all I did was grep, I say I only grepped.</li>
-						<li>Third-party vulnerabilities are published only after responsible disclosure.</li>
-						<li>Mistakes are fixed in public: each article's history shows what changed and when.</li>
-						<li>No trackers, no cookies. The code is on GitHub and accepts corrections by pull request.</li>
-					</ul>
-				</>
-			)}
-			<p class="mono"><a href={AUTHOR.github} rel="me">GitHub</a> · <a href={AUTHOR.repo}>{ui.footer_source}</a></p>
+		<div class="grid">
+			<div class="card prose" style="--i:1">
+				{pt ? (
+					<>
+						<p>
+							Ponho agentes de IA a trabalhar em produção: automação de processos, servidores MCP, modelos locais e comerciais,
+							bases de dados com dados de clientes reais. Este laboratório é onde documento o que isso ensina, em seis áreas: a
+							que assino, AI Ops Sec (segurança e observabilidade de agentes), e as outras cinco sem as quais ela não faz sentido.
+						</p>
+						<p>
+							Tudo o que aqui aparece é anonimizado, e cada artigo lista as fontes, o que verifiquei à mão e o que mudou desde
+							que foi publicado.
+						</p>
+						<p>Sou o {AUTHOR.name}. Trabalho em automação de processos e IA agêntica, no Porto.</p>
+					</>
+				) : (
+					<>
+						<p>
+							I put AI agents to work in production: process automation, MCP servers, local and commercial models, databases
+							with real client data. This lab is where I document what that teaches, in six areas: the one I sign, AI Ops Sec
+							(agent security and observability), and the five others without which it makes no sense.
+						</p>
+						<p>
+							Everything here is anonymised, and every article lists its sources, what I verified by hand, and what changed
+							since it was published.
+						</p>
+						<p>I am {AUTHOR.name}. I work in process automation and agentic AI, in Porto, Portugal.</p>
+					</>
+				)}
+				<p class="mono"><a href={AUTHOR.github} rel="me">GitHub</a> · <a href={AUTHOR.repo}>{ui.footer_source}</a></p>
+			</div>
+			<aside class="verdict" style="--i:2">
+				<span class="seq-label kicker">{pt ? 'regras da casa' : 'house rules'}</span>
+				<ul>
+					{pt ? (
+						<>
+							<li>Uma afirmação forte exige um método forte. Se só fiz grep, digo que só fiz grep.</li>
+							<li>Falhas de terceiros só são publicadas depois de divulgação responsável.</li>
+							<li>Erros corrigem-se em público: o histórico de cada artigo mostra o que mudou e quando.</li>
+							<li>Sem trackers nem cookies. O código está no GitHub e aceita correcções por pull request.</li>
+						</>
+					) : (
+						<>
+							<li>A strong claim needs a strong method. If all I did was grep, I say I only grepped.</li>
+							<li>Third-party vulnerabilities are published only after responsible disclosure.</li>
+							<li>Mistakes are fixed in public: each article's history shows what changed and when.</li>
+							<li>No trackers, no cookies. The code is on GitHub and accepts corrections by pull request.</li>
+						</>
+					)}
+				</ul>
+			</aside>
 		</div>
 	</article>
 </Base>
 
 <style>
 	header {
-		margin-bottom: 2rem;
-		max-width: 52rem;
+		margin-bottom: 1.6rem;
+		max-width: 56rem;
 	}
 	header h1 {
-		margin-top: 0.6rem;
+		margin-top: 0.5rem;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+		gap: 12px;
+		align-items: start;
+	}
+	.verdict ul {
+		margin: 0;
+		padding-left: 1.1em;
+		color: var(--fg);
+		font-size: 0.95rem;
+	}
+	.verdict li + li {
+		margin-top: 0.5em;
+	}
+	@media (max-width: 860px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

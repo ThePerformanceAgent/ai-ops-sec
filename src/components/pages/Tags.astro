@@ -23,33 +23,33 @@ const posts = tag ? (await getPosts(locale)).filter((p) => p.data.tags.includes(
 	noindex={!!tag && posts.length === 0}
 >
 	<header class="head">
-		<p class="kicker">{ui.nav_tags}</p>
+		<p class="seq-label">//{ui.nav_tags}</p>
 		<h1>{tag ? <>{ui.tagged} <em>#{tag}</em></> : ui.tags_title}</h1>
 	</header>
 	<div class="cloud">
 		{[...tags.entries()].map(([name, n]) => (
-			<a class="tag" href={href(locale, `tags/${name}`)} aria-current={name === tag ? 'page' : undefined}>{name} <span class="mono">{n}</span></a>
+			<a class:list={['chip', { ok: name === tag }]} href={href(locale, `tags/${name}`)}>#{name} <b>{n}</b></a>
 		))}
-		{tags.size === 0 && <p class="lede">{ui.no_posts}</p>}
+		{tags.size === 0 && <p class="empty">{ui.no_posts}</p>}
 	</div>
-	{tag && <ul class="tracelist">{posts.map((p, i) => <PostRow post={p} index={i} />)}</ul>}
+	{tag && <section class="card" style="--i:1"><ul class="rows">{posts.map((p, i) => <PostRow post={p} index={i + 2} />)}</ul></section>}
 </Base>
 
 <style>
 	.head {
-		margin-bottom: 1.5rem;
+		margin-bottom: 1.2rem;
+	}
+	.head h1 {
+		margin-top: 0.5rem;
 	}
 	.cloud {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-bottom: 2.5rem;
+		gap: 8px;
+		margin-bottom: 1.6rem;
 	}
-	.tag[aria-current='page'] {
-		border-color: var(--signal);
-		color: var(--signal);
-	}
-	.tracelist {
-		margin-left: 1.1rem;
+	.empty {
+		color: var(--muted);
+		margin: 0;
 	}
 </style>

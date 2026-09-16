@@ -1,12 +1,14 @@
 ---
+/* <Callout kind="prova" title="…">: .an3 (prova) · .an2 (aviso) · .an (crítico) · .verdict (nota) */
 interface Props {
 	title?: string;
-	kind?: 'nota' | 'aviso' | 'prova' | 'note' | 'warning' | 'evidence';
+	kind?: 'nota' | 'aviso' | 'critico' | 'prova' | 'note' | 'warning' | 'critical' | 'evidence';
 }
 const { title, kind = 'nota' } = Astro.props;
+const cls = { nota: 'verdict', note: 'verdict', aviso: 'an2', warning: 'an2', critico: 'an', critical: 'an', prova: 'an3', evidence: 'an3' }[kind];
 ---
 
-<aside class="callout" data-kind={kind}>
-	{title && <span class="kicker">{title}</span>}
+<aside class:list={[cls, 'callout']} data-kind={kind}>
+	{title && <span class="seq-label kicker">{title}</span>}
 	<slot />
 </aside>
