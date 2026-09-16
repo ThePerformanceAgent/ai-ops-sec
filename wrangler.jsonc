@@ -1,0 +1,20 @@
+{
+	// Cloudflare Workers com static assets: serve dist/ e aplica public/_headers e public/_redirects.
+	// Deploy pelo GitHub Actions (deploy.yml) com CLOUDFLARE_API_TOKEN limitado a Workers.
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "ai-ops-sec",
+	"compatibility_date": "2026-09-01",
+	"assets": {
+		"directory": "./dist",
+		"not_found_handling": "404-page",
+		"html_handling": "auto-trailing-slash"
+	},
+	"routes": [
+		{ "pattern": "andresilvalab.com", "custom_domain": true },
+		{ "pattern": "www.andresilvalab.com", "custom_domain": true },
+		{ "pattern": "andresilvalab.dev", "custom_domain": true },
+		{ "pattern": "www.andresilvalab.dev", "custom_domain": true }
+	],
+	"workers_dev": false,
+	"observability": { "enabled": false }
+}
