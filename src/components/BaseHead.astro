@@ -54,7 +54,7 @@ const fullTitle = title === s.title ? `${s.title}: ${s.tagline}` : `${title} · 
 <link rel="canonical" href={canonical} />
 {alternatePath && <link rel="alternate" hreflang={site(other).locale} href={new URL(href(other, alternatePath), Astro.site)} />}
 {alternatePath && <link rel="alternate" hreflang={s.locale} href={canonical} />}
-{alternatePath && <link rel="alternate" hreflang="x-default" href={locale === 'pt' ? canonical : new URL(href('pt', alternatePath), Astro.site)} />}
+{alternatePath && <link rel="alternate" hreflang="x-default" href={locale === 'en' ? canonical : new URL(href('en', alternatePath), Astro.site)} />}
 
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content={s.title} />
