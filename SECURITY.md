@@ -4,7 +4,7 @@ Este é um site estático sem backend, sem autenticação e sem dados de utiliza
 uma falha aqui (um script injectado, um cabeçalho em falta, uma dependência comprometida) conta.
 
 **Reportar:** abre um aviso privado em
-https://github.com/ThePerformanceAgent/ai-ops-sec/security/advisories/new. Não uses issues
+https://github.com/andresilvalab/ai-ops-sec/security/advisories/new. Não uses issues
 públicos para vulnerabilidades. Resposta inicial no prazo de 7 dias.
 
 **Âmbito:** o código deste repositório, o build publicado e a cadeia de dependências.

@@ -4,9 +4,9 @@ export const DEFAULT_LOCALE: Locale = 'pt';
 
 export const AUTHOR = {
 	name: 'André Silva',
-	handle: 'ThePerformanceAgent',
-	github: 'https://github.com/ThePerformanceAgent',
-	repo: 'https://github.com/ThePerformanceAgent/ai-ops-sec',
+	handle: 'andresilvalab',
+	github: 'https://github.com/andresilvalab',
+	repo: 'https://github.com/andresilvalab/ai-ops-sec',
 	linkedin: '', // preencher com o URL público real antes do lançamento
 };
 
