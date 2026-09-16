@@ -16,7 +16,7 @@ Segurança de agentes de IA e observabilidade, com prova. Blog estático em
 | Fontes | auto-alojadas (`src/assets/fonts/`) | sem pedidos a CDNs de fontes |
 | Descoberta | RSS por língua, sitemap com hreflang, `llms.txt`, `llms-full.txt`, JSON-LD | motores de busca e motores de resposta |
 | Segurança | `public/_headers` (CSP, HSTS, etc.), meta CSP de reserva, `security.txt`, gitleaks + marcadores privados no CI, Dependabot | um blog de segurança tem de passar no próprio teste |
-| Deploy | GitHub Actions → Cloudflare Workers (static assets) com `wrangler.jsonc` | o `_headers` (CSP, HSTS, COOP/CORP, cache) e o `_redirects` são aplicados de verdade; token limitado a Workers |
+| Deploy | GitHub Actions → Cloudflare Workers (static assets) com `wrangler.jsonc` | o `_headers` (CSP, HSTS, COOP/CORP, cache) é aplicado de verdade; `www` e `.dev` redireccionam por Redirect Rules na zona; token limitado a Workers |
 
 ## Desenvolver
 
