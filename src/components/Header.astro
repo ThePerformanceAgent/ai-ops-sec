@@ -5,7 +5,7 @@ import ThemeToggle from './ThemeToggle.astro';
 
 interface Props {
 	locale: Locale;
-	alternatePath?: string; // caminho relativo da mesma página no outro locale
+	alternatePath?: string;
 }
 const { locale, alternatePath } = Astro.props;
 const ui = t(locale);
@@ -18,13 +18,14 @@ const isActive = (p: string) => path.startsWith(href(locale, p));
 <header class="site-header">
 	<div class="wrap bar">
 		<a class="brand" href={href(locale, '')} aria-label={s.title}>
-			<span class="brand-mark" aria-hidden="true">//</span>
-			<span class="brand-name">AI <em>Ops</em> Sec</span>
+			<span class="live-dot" aria-hidden="true"></span>
+			<span class="brand-name">André Silva <em>Lab</em></span>
 		</a>
 		<nav aria-label="Principal">
-			<a href={href(locale, 'blog')} aria-current={isActive('blog') ? 'page' : undefined}>{ui.nav_blog}</a>
-			<a href={href(locale, 'tags')} aria-current={isActive('tags') ? 'page' : undefined}>{ui.nav_tags}</a>
-			<a href={href(locale, 'about')} aria-current={isActive('about') ? 'page' : undefined}>{ui.nav_about}</a>
+			<a href={href(locale, 'areas')} class:list={{ active: isActive('areas') }}>{ui.nav_areas}</a>
+			<a href={href(locale, 'blog')} class:list={{ active: isActive('blog') }}>{ui.nav_blog}</a>
+			<a href={href(locale, 'tags')} class:list={{ active: isActive('tags') }}>{ui.nav_tags}</a>
+			<a href={href(locale, 'about')} class:list={{ active: isActive('about') }}>{ui.nav_about}</a>
 		</nav>
 		<div class="tools">
 			<a class="iconbtn lang" href={href(other, alternatePath ?? '')} title={ui.lang_switch} lang={other}>{ui.lang_switch_short}</a>
@@ -41,49 +42,46 @@ const isActive = (p: string) => path.startsWith(href(locale, p));
 		position: sticky;
 		top: 0;
 		z-index: 50;
-		background: color-mix(in srgb, var(--paper) 88%, transparent);
-		backdrop-filter: saturate(1.2) blur(8px);
+		background: color-mix(in srgb, var(--bg) 82%, transparent);
+		backdrop-filter: saturate(1.2) blur(10px);
 		border-bottom: 1px solid var(--line);
 	}
 	.bar {
 		display: flex;
 		align-items: center;
 		gap: 1.5rem;
-		min-height: 3.6rem;
+		min-height: 3.5rem;
 	}
 	.brand {
-		white-space: nowrap;
 		display: inline-flex;
-		align-items: baseline;
-		gap: 0.5rem;
-		text-decoration: none;
-		font-family: var(--font-display);
-		font-size: 1.45rem;
+		align-items: center;
+		gap: 0.6rem;
+		white-space: nowrap;
+		font-weight: 600;
+		font-size: 1.02rem;
 		letter-spacing: -0.01em;
 	}
 	.brand em {
-		color: var(--signal);
-	}
-	.brand-mark {
-		font: 600 0.8rem var(--font-mono);
-		color: var(--muted);
+		font-style: normal;
+		color: var(--accent);
 	}
 	nav {
 		display: flex;
-		gap: 1.25rem;
+		gap: 0.25rem;
 		margin-left: auto;
-		font: 500 0.78rem var(--font-mono);
+		font: 500 12px var(--font-mono);
 	}
 	nav a {
-		text-decoration: none;
-		color: var(--ink-2);
-		padding: 0.3rem 0;
-		border-bottom: 1px solid transparent;
+		color: var(--muted);
+		padding: 6px 10px;
+		border-radius: 8px;
 	}
-	nav a:hover,
-	nav a[aria-current='page'] {
-		color: var(--signal);
-		border-bottom-color: var(--signal);
+	nav a:hover {
+		color: var(--fg);
+	}
+	nav a.active {
+		background: var(--accent-soft);
+		color: var(--fg);
 	}
 	.tools {
 		display: flex;
@@ -91,8 +89,7 @@ const isActive = (p: string) => path.startsWith(href(locale, p));
 		align-items: center;
 	}
 	.lang {
-		font: 600 0.7rem var(--font-mono);
-		text-decoration: none;
+		font: 600 11px var(--font-mono);
 	}
 	@media (max-width: 640px) {
 		.bar {
@@ -107,11 +104,8 @@ const isActive = (p: string) => path.startsWith(href(locale, p));
 			order: 3;
 			flex-basis: 100%;
 			margin-left: 0;
-			gap: 1rem;
-			font-size: 0.72rem;
-		}
-		.brand {
-			font-size: 1.25rem;
+			gap: 0.1rem;
+			font-size: 11px;
 		}
 	}
 </style>

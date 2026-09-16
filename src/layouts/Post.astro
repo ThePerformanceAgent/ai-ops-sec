@@ -8,6 +8,7 @@ import Redacted from '../components/mdx/Redacted.astro';
 import { Image } from 'astro:assets';
 import type { Locale } from '../consts';
 import { href, t } from '../lib/i18n';
+import { areaOf } from '../lib/areas';
 import { getTranslation, slugOf, type Post } from '../lib/posts';
 import { articleLd, breadcrumbLd } from '../lib/seo';
 
@@ -33,6 +34,7 @@ const jsonLd = [
 	]),
 ];
 const alternatePath = translation ? `blog/${slugOf(translation)}` : undefined;
+const area = areaOf(d.area);
 ---
 
 <Base
@@ -49,13 +51,13 @@ const alternatePath = translation ? `blog/${slugOf(translation)}` : undefined;
 >
 	<article class="post" data-pagefind-body>
 		<header class="head reveal">
-			<p class="kicker">{d.series ? `${ui.in_series}: ${d.series}` : ui.nav_blog}{d.status !== 'published' && <> · {d.status}</>}</p>
+			<p class="seq-label">//{area.seq} {area.name[locale]}{d.series && <> · {ui.in_series}: {d.series}</>}{d.status !== 'published' && <> · {d.status}</>}</p>
 			<h1>{d.title}</h1>
 			<p class="lede">{d.description}</p>
 		</header>
 		<div class="grid">
 			<TraceRail post={post} headings={headings} translation={translation} />
-			<div class="body reveal" style="--i:2">
+			<div class="body reveal" style="--i:3">
 				{d.heroImage && (
 					<figure>
 						<Image src={d.heroImage} alt={d.heroAlt ?? ''} width={1200} densities={[1, 2]} loading="eager" />
@@ -92,10 +94,10 @@ const alternatePath = translation ? `blog/${slugOf(translation)}` : undefined;
 		width: 100%;
 		height: auto;
 		border: 1px solid var(--line);
-		border-radius: 2px;
+		border-radius: 12px;
 	}
 	figcaption {
-		font: 450 0.72rem var(--font-mono);
+		font: 400 11.5px var(--font-mono);
 		color: var(--muted);
 		margin-top: 0.6em;
 	}

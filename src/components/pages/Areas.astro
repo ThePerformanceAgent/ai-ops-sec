@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import AreaCard from '../AreaCard.astro';
+import PostRow from '../PostRow.astro';
+import type { Locale } from '../../consts';
+import { AREAS, areaOf } from '../../lib/areas';
+import { site, t } from '../../lib/i18n';
+import { getPosts } from '../../lib/posts';
+
+interface Props {
+	locale: Locale;
+	area?: string;
+}
+const { locale, area: key } = Astro.props;
+const ui = t(locale);
+const all = await getPosts(locale);
+const countBy = (k: string) => all.filter((p) => p.data.area === k).length;
+const area = key ? areaOf(key) : undefined;
+const posts = area ? all.filter((p) => p.data.area === area.key) : [];
+---
+
+<Base
+	locale={locale}
+	title={area ? area.name[locale] : ui.areas_title}
+	description={area ? area.description[locale] : site(locale).description}
+	alternatePath={area ? `areas/${area.key}` : 'areas'}
+>
+	{area ? (
+		<>
+			<header class="head">
+				<p class="seq-label">//{area.seq} {ui.in_area.toLowerCase()}{area.highlight && <> · {ui.area_highlight}</>}</p>
+				<h1>{area.name[locale]}</h1>
+				<p class="lede">{area.description[locale]}</p>
+				<div class="topics">{area.topics[locale].map((x) => <span class="chip"><b>{x}</b></span>)}</div>
+			</header>
+			<section class="card" style="--i:2">
+				<div class="stitle"><span class="idx">//</span><h2>{ui.all_posts}</h2><span class="rule"></span><span class="hint">{posts.length}</span></div>
+				{posts.length === 0 ? <p class="empty">{ui.no_posts}</p> : <ul class="rows">{posts.map((p, i) => <PostRow post={p} index={i + 3} />)}</ul>}
+			</section>
+			<nav class="others">
+				<div class="stitle"><span class="idx">//</span><h2>{ui.areas_title}</h2><span class="rule"></span></div>
+				<div class="grid">{AREAS.filter((a) => a.key !== area.key).map((a, i) => <AreaCard area={a} locale={locale} count={countBy(a.key)} index={i + 4} />)}</div>
+			</nav>
+		</>
+	) : (
+		<>
+			<header class="head">
+				<p class="seq-label">//{ui.nav_areas}</p>
+				<h1>{ui.areas_title}</h1>
+				<p class="lede">{ui.areas_lede}</p>
+			</header>
+			<div class="grid">{AREAS.map((a, i) => <AreaCard area={a} locale={locale} count={countBy(a.key)} index={i + 1} />)}</div>
+		</>
+	)}
+</Base>
+
+<style>
+	.head {
+		margin-bottom: 1.6rem;
+		max-width: 56rem;
+	}
+	.head h1 {
+		margin: 0.6rem 0 0.9rem;
+	}
+	.topics {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		margin-top: 0.4rem;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		gap: 12px;
+	}
+	.others {
+		margin-top: 2rem;
+	}
+	.empty {
+		color: var(--muted);
+		margin: 0;
+	}
+</style>

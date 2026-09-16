@@ -30,9 +30,8 @@ const fullTitle = title === s.title ? `${s.title}: ${s.tagline}` : `${title} · 
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="color-scheme" content="light dark" />
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3eee4" />
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1114" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#1a1c24" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <!-- CSP de reserva para alojamentos sem cabeçalhos (GitHub Pages). A versão completa vai em public/_headers. -->
 <meta http-equiv="Content-Security-Policy" content={CSP} />
@@ -44,9 +43,8 @@ const fullTitle = title === s.title ? `${s.title}: ${s.tagline}` : `${title} · 
 <meta name="generator" content={Astro.generator} />
 {noindex && <meta name="robots" content="noindex,follow" />}
 
-<Font cssVariable="--font-display" preload />
-<Font cssVariable="--font-body" preload />
-<Font cssVariable="--font-mono" />
+<Font cssVariable="--font-sans" preload />
+<Font cssVariable="--font-mono" preload />
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />

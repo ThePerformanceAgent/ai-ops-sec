@@ -1,5 +1,5 @@
 ---
-/* Fontes, verificação à mão e histórico: o rodapé de prova de cada artigo. */
+/* Rodapé de prova: verificado à mão, fontes, histórico, citação. */
 import { AUTHOR, type Locale } from '../consts';
 import { formatDate, t } from '../lib/i18n';
 import { slugOf, versionOf, type Post } from '../lib/posts';
@@ -17,14 +17,14 @@ const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
 
 <footer class="proof">
 	{d.verified.length > 0 && (
-		<section class="callout" aria-labelledby="verified">
-			<span class="kicker" id="verified">{ui.verified_title}{d.verifiedOn && <> · {formatDate(d.verifiedOn, locale)}</>}</span>
+		<section class="verdict" aria-labelledby="verified">
+			<span class="seq-label kicker" id="verified">{ui.verified_title}{d.verifiedOn && <> · {formatDate(d.verifiedOn, locale)}</>}</span>
 			<ul>{d.verified.map((v) => <li>{v}</li>)}</ul>
 		</section>
 	)}
 	{d.sources.length > 0 && (
-		<section aria-labelledby="sources">
-			<span class="kicker" id="sources">{ui.sources_title}</span>
+		<section class="card" aria-labelledby="sources" style="--i:3">
+			<div class="stitle"><span class="idx">//</span><h2 id="sources">{ui.sources_title}</h2><span class="rule"></span><span class="hint">{d.sources.length}</span></div>
 			<ol class="sources">
 				{d.sources.map((s) => (
 					<li>
@@ -36,8 +36,8 @@ const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
 		</section>
 	)}
 	{d.changelog.length > 0 && (
-		<section aria-labelledby="changelog">
-			<span class="kicker" id="changelog">{ui.changelog_title}</span>
+		<section class="card" aria-labelledby="changelog" style="--i:4">
+			<div class="stitle"><span class="idx">//</span><h2 id="changelog">{ui.changelog_title}</h2><span class="rule"></span><span class="hint">{versionOf(post)}</span></div>
 			<ol class="log mono">
 				{d.changelog.map((c) => (
 					<li><time datetime={c.date.toISOString()}>{formatDate(c.date, locale)}</time><span>{c.note}</span></li>
@@ -45,26 +45,20 @@ const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
 			</ol>
 		</section>
 	)}
-	<section class="cite">
-		<span class="kicker">{ui.cite}</span>
-		<pre class="mono"><code>{AUTHOR.name}. "{d.title}". AI Ops Sec, {formatDate(d.updatedDate ?? d.pubDate, locale)} ({versionOf(post)}). {url}</code></pre>
+	<section class="card cite" style="--i:5">
+		<div class="stitle"><span class="idx">//</span><h2>{ui.cite}</h2><span class="rule"></span></div>
+		<pre class="mono"><code>{AUTHOR.name}. "{d.title}". André Silva Lab, {formatDate(d.updatedDate ?? d.pubDate, locale)} ({versionOf(post)}). {url}</code></pre>
 		<p class="mono"><a href={editUrl} rel="noopener">src/content/posts/{post.id}.mdx</a> · {slugOf(post)}</p>
 	</section>
 </footer>
 
 <style>
 	.proof {
-		margin-top: 3.5rem;
-		padding-top: 1.5rem;
-		border-top: 1px dashed var(--line-2);
+		margin-top: 3rem;
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 14px;
 		max-width: var(--measure);
-	}
-	.kicker {
-		display: block;
-		margin-bottom: 0.6rem;
 	}
 	ul,
 	ol {
@@ -75,12 +69,22 @@ const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
 		margin-top: 0.4em;
 	}
 	li::marker {
-		color: var(--signal);
+		color: var(--accent);
 		font-family: var(--font-mono);
 		font-size: 0.85em;
 	}
+	.verdict ul {
+		color: var(--fg);
+		font-size: 0.95rem;
+	}
 	.sources a {
-		text-decoration-color: var(--signal);
+		color: var(--fg);
+		text-decoration: underline;
+		text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+		text-underline-offset: 0.2em;
+	}
+	.sources a:hover {
+		color: var(--accent);
 	}
 	.log {
 		list-style: none;
@@ -90,19 +94,22 @@ const editUrl = `${AUTHOR.repo}/blob/main/src/content/posts/${post.id}.mdx`;
 		display: grid;
 		grid-template-columns: 7rem 1fr;
 		gap: 1rem;
-		color: var(--ink-2);
-	}
-	.log time {
 		color: var(--muted);
 	}
+	.log time {
+		color: var(--faint);
+	}
 	.cite pre {
-		background: var(--code-bg);
+		background: var(--surface2);
 		border: 1px solid var(--line);
 		padding: 0.8em 1em;
-		border-radius: 3px;
+		border-radius: 10px;
 		white-space: pre-wrap;
 		overflow-wrap: anywhere;
-		color: var(--ink-2);
+		color: var(--muted);
 		margin: 0 0 0.5em;
+	}
+	.cite p {
+		margin: 0;
 	}
 </style>

@@ -2,7 +2,7 @@
 // autoriza scripts do próprio domínio mais o hash do script inline de arranque.
 (() => {
 	const root = document.documentElement;
-	const current = () => root.getAttribute('data-theme') ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+	const current = () => root.getAttribute('data-theme') ?? 'dark';
 	document.querySelectorAll('.theme-toggle').forEach((b) =>
 		b.addEventListener('click', () => {
 			const next = current() === 'dark' ? 'light' : 'dark';

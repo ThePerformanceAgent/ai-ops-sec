@@ -1,5 +1,6 @@
 ---
 import type { Locale } from '../consts';
+import { areaOf } from '../lib/areas';
 import { formatDate, href, isoDate, t } from '../lib/i18n';
 import { readingMinutes, slugOf, type Post } from '../lib/posts';
 interface Props {
@@ -10,28 +11,28 @@ const { post, index = 0 } = Astro.props;
 const d = post.data;
 const locale: Locale = d.lang;
 const ui = t(locale);
+const area = areaOf(d.area);
 ---
 
-<li class="tracerow reveal" style={`--i:${index}`}>
+<li class="row reveal" style={`--i:${index}`}>
 	<div class="meta mono">
 		<time datetime={d.pubDate.toISOString()}><b>{isoDate(d.pubDate)}</b></time>
 		<span>{readingMinutes(post.body)} {ui.min_read}</span>
-		<span class={d.verifiedOn ? 'ok' : ''}>{d.verifiedOn ? `✓ ${ui.verified} ${formatDate(d.verifiedOn, locale)}` : d.status}</span>
+		<span class:list={{ ok: !!d.verifiedOn }}>{d.verifiedOn ? `✓ ${ui.verified} ${formatDate(d.verifiedOn, locale)}` : d.status}</span>
 	</div>
 	<div>
+		<a class="tag ok area" href={href(locale, `areas/${area.key}`)}>{area.name[locale]}</a>
 		<h3><a href={href(locale, `blog/${slugOf(post)}`)}>{d.title}</a></h3>
 		<p>{d.description}</p>
-		<div class="tags">{d.tags.map((tag) => <a class="tag" href={href(locale, `tags/${tag}`)}>{tag}</a>)}</div>
+		<div class="tags">{d.tags.map((tag) => <a class="tag" href={href(locale, `tags/${tag}`)}>#{tag}</a>)}</div>
 	</div>
 </li>
 
 <style>
 	.ok {
-		color: var(--signal);
+		color: var(--accent);
 	}
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem;
+	.area {
+		margin-bottom: 6px;
 	}
 </style>

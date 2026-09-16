@@ -1,0 +1,10 @@
+---
+import Areas from '../../components/pages/Areas.astro';
+import { AREAS } from '../../lib/areas';
+export function getStaticPaths() {
+	return AREAS.map((a) => ({ params: { area: a.key } }));
+}
+const { area } = Astro.params;
+---
+
+<Areas locale="pt" area={area} />

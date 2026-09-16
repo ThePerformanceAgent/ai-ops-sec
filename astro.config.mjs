@@ -25,7 +25,7 @@ export default defineConfig({
 	],
 	markdown: {
 		shikiConfig: {
-			themes: { light: 'vitesse-light', dark: 'vitesse-dark' },
+			themes: { light: 'vitesse-light', dark: 'vitesse-black' },
 			defaultColor: false,
 			wrap: false,
 		},
@@ -33,38 +33,20 @@ export default defineConfig({
 	fonts: [
 		{
 			provider: fontProviders.local(),
-			name: 'Instrument Serif',
-			cssVariable: '--font-display',
-			fallbacks: ['Georgia', 'serif'],
+			name: 'Geist',
+			cssVariable: '--font-sans',
+			fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
 			options: {
-				variants: [
-					{ src: ['./src/assets/fonts/instrument-serif-latin-400-normal.woff2'], weight: 400, style: 'normal', display: 'swap' },
-					{ src: ['./src/assets/fonts/instrument-serif-latin-400-italic.woff2'], weight: 400, style: 'italic', display: 'swap' },
-				],
+				variants: [{ src: ['./src/assets/fonts/geist-latin-wght-normal.woff2'], weight: '100 900', style: 'normal', display: 'swap' }],
 			},
 		},
 		{
 			provider: fontProviders.local(),
-			name: 'Atkinson Hyperlegible',
-			cssVariable: '--font-body',
-			fallbacks: ['system-ui', 'sans-serif'],
-			options: {
-				variants: [
-					{ src: ['./src/assets/fonts/atkinson-hyperlegible-latin-400-normal.woff2'], weight: 400, style: 'normal', display: 'swap' },
-					{ src: ['./src/assets/fonts/atkinson-hyperlegible-latin-400-italic.woff2'], weight: 400, style: 'italic', display: 'swap' },
-					{ src: ['./src/assets/fonts/atkinson-hyperlegible-latin-700-normal.woff2'], weight: 700, style: 'normal', display: 'swap' },
-				],
-			},
-		},
-		{
-			provider: fontProviders.local(),
-			name: 'Martian Mono',
+			name: 'Geist Mono',
 			cssVariable: '--font-mono',
-			fallbacks: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+			fallbacks: ['ui-monospace', 'SF Mono', 'Menlo', 'monospace'],
 			options: {
-				variants: [
-					{ src: ['./src/assets/fonts/martian-mono-latin-wght-normal.woff2'], weight: '300 700', style: 'normal', display: 'swap' },
-				],
+				variants: [{ src: ['./src/assets/fonts/geist-mono-latin-wght-normal.woff2'], weight: '100 900', style: 'normal', display: 'swap' }],
 			},
 		},
 	],

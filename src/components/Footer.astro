@@ -13,17 +13,17 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
 	<div class="wrap grid">
 		<div>
-			<span class="brand">AI <em>Ops</em> Sec</span>
+			<span class="brand">André Silva <em>Lab</em></span>
 			<p class="mono">{AUTHOR.name} · {year}<br />{ui.footer_license}</p>
 		</div>
 		<ul class="links mono">
 			<li><a href={href(locale, 'rss.xml')}>{ui.rss}</a></li>
 			<li><a href={`${base}/llms.txt`}>llms.txt</a></li>
 			<li><a href={AUTHOR.repo} rel="me">{ui.footer_source}</a></li>
-			<li><a href={`${base}/security.txt`}>{ui.footer_security}</a></li>
+			<li><a href={`${base}/.well-known/security.txt`}>{ui.footer_security}</a></li>
 			<li><a href={AUTHOR.github} rel="me">GitHub</a></li>
 		</ul>
-		<p class="mono note">{ui.footer_no_trackers}</p>
+		<p class="mono note"><span class="status-dot" style="--c: var(--accent)"></span> {ui.footer_no_trackers}</p>
 	</div>
 </footer>
 
@@ -31,20 +31,20 @@ const year = new Date().getFullYear();
 	.site-footer {
 		margin-top: auto;
 		border-top: 1px solid var(--line);
-		padding: 2.5rem 0 3rem;
+		padding: 2.2rem 0 3rem;
 	}
 	.grid {
 		display: grid;
 		grid-template-columns: 1fr auto;
-		gap: 1.5rem 3rem;
+		gap: 1.2rem 3rem;
 		align-items: start;
 	}
 	.brand {
-		font-family: var(--font-display);
-		font-size: 1.3rem;
+		font-weight: 600;
 	}
 	.brand em {
-		color: var(--signal);
+		font-style: normal;
+		color: var(--accent);
 	}
 	.links {
 		list-style: none;
@@ -54,15 +54,12 @@ const year = new Date().getFullYear();
 		flex-wrap: wrap;
 		gap: 0.4rem 1.2rem;
 	}
-	.links a {
-		text-decoration: none;
-	}
-	.links a:hover {
-		color: var(--signal);
-	}
 	.note {
 		grid-column: 1 / -1;
 		margin: 0;
+		display: flex;
+		align-items: center;
+		gap: 8px;
 	}
 	@media (max-width: 640px) {
 		.grid {

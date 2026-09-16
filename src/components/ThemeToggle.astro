@@ -14,19 +14,11 @@ const { label } = Astro.props;
 	.moon {
 		display: none;
 	}
-	:global(:root[data-theme='dark']) .moon {
+	:global(:root[data-theme='light']) .moon {
 		display: block;
 	}
-	:global(:root[data-theme='dark']) .sun {
+	:global(:root[data-theme='light']) .sun {
 		display: none;
-	}
-	@media (prefers-color-scheme: dark) {
-		:global(:root:not([data-theme='light'])) .moon {
-			display: block;
-		}
-		:global(:root:not([data-theme='light'])) .sun {
-			display: none;
-		}
 	}
 </style>
 

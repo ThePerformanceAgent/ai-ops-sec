@@ -1,8 +1,8 @@
 ---
-/* A metadata de um artigo apresentada como um trace: quando saiu, em que língua,
-   quanto demora, quando foi verificado, quantas fontes, que versão. Em ecrãs largos
-   fica colada à esquerda enquanto se lê; em ecrãs pequenos é o bloco de abertura. */
+/* A metadata do artigo como um trace, num cartão colado à esquerda: id, língua, leitura,
+   datas, verificação, fontes, versão; depois as secções e as tags. */
 import type { Locale } from '../consts';
+import { areaOf } from '../lib/areas';
 import { formatDate, href, isoDate, t } from '../lib/i18n';
 import { readingMinutes, slugOf, versionOf, type Post } from '../lib/posts';
 
@@ -17,14 +17,17 @@ const locale: Locale = d.lang;
 const ui = t(locale);
 const minutes = readingMinutes(post.body);
 const h2s = headings.filter((h) => h.depth === 2);
+const area = areaOf(d.area);
 ---
 
 <aside class="rail" aria-label={ui.trace}>
-	<div class="block">
-		<span class="kicker">{ui.trace}</span>
+	<div class="card" style={`--i:1; --accent-dot: ${d.verifiedOn ? 'var(--accent)' : 'var(--amber)'}`}>
+		<span class="seq-label">{ui.trace}</span>
 		<dl class="mono">
 			<dt>id</dt>
 			<dd><b>{isoDate(d.pubDate)}/{slugOf(post)}</b></dd>
+			<dt>{ui.in_area.toLowerCase()}</dt>
+			<dd><a href={href(locale, `areas/${area.key}`)}>{area.name[locale]}</a></dd>
 			<dt>lang</dt>
 			<dd>{d.lang}{translation && <> · <a href={href(translation.data.lang, `blog/${slugOf(translation)}`)}>{translation.data.lang}</a></>}</dd>
 			<dt>{ui.read}</dt>
@@ -46,7 +49,8 @@ const h2s = headings.filter((h) => h.depth === 2);
 		</dl>
 	</div>
 	{h2s.length > 1 && (
-		<nav class="toc block" aria-label="Secções">
+		<nav class="card toc" aria-label="Secções" style="--i:2">
+			<span class="seq-label">{locale === 'pt' ? 'secções' : 'sections'}</span>
 			<ol class="mono">
 				{h2s.map((h, i) => (
 					<li><a href={`#${h.slug}`}><span class="n">{String(i + 1).padStart(2, '0')}</span>{h.text}</a></li>
@@ -54,8 +58,8 @@ const h2s = headings.filter((h) => h.depth === 2);
 			</ol>
 		</nav>
 	)}
-	<div class="block tags">
-		{d.tags.map((tag) => <a class="tag" href={href(locale, `tags/${tag}`)}>{tag}</a>)}
+	<div class="tags">
+		{d.tags.map((tag) => <a class="tag" href={href(locale, `tags/${tag}`)}>#{tag}</a>)}
 	</div>
 </aside>
 
@@ -63,69 +67,65 @@ const h2s = headings.filter((h) => h.depth === 2);
 	.rail {
 		display: flex;
 		flex-direction: column;
-		gap: 1.4rem;
+		gap: 12px;
 		position: sticky;
-		top: 4.6rem;
+		top: 4.5rem;
 		align-self: start;
-	}
-	.block {
-		border-left: 1px solid var(--line);
-		padding-left: 1rem;
 	}
 	dl {
 		display: grid;
 		grid-template-columns: auto 1fr;
-		gap: 0.35rem 0.9rem;
-		margin: 0.5rem 0 0;
+		gap: 6px 12px;
+		margin: 10px 0 0;
 	}
 	dt {
-		color: var(--muted);
+		color: var(--faint);
 	}
 	dd {
 		margin: 0;
-		color: var(--ink-2);
+		color: var(--muted);
 		overflow-wrap: anywhere;
 	}
+	dd a,
 	dd.ok {
-		color: var(--signal);
+		color: var(--accent);
 	}
-	dd a {
-		text-decoration: none;
-		color: var(--signal);
+	dd.warn {
+		color: var(--amber);
 	}
 	.toc ol {
 		list-style: none;
-		margin: 0;
+		margin: 10px 0 0;
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 0.45rem;
+		gap: 7px;
 	}
 	.toc a {
-		text-decoration: none;
-		color: var(--ink-2);
+		color: var(--muted);
 		display: flex;
-		gap: 0.6rem;
-		line-height: 1.35;
+		gap: 8px;
+		line-height: 1.4;
 	}
 	.toc a:hover {
-		color: var(--signal);
+		color: var(--fg);
 	}
 	.toc .n {
-		color: var(--signal);
+		color: var(--accent);
 		flex: 0 0 auto;
 	}
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.4rem;
+		gap: 6px;
+		padding: 0 4px;
 	}
 	@media (max-width: 960px) {
 		.rail {
 			position: static;
 			display: grid;
 			grid-template-columns: 1fr 1fr;
-			gap: 1rem 2rem;
+			gap: 12px;
 		}
 		.toc {
 			display: none;

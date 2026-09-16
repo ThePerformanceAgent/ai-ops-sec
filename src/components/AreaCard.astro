@@ -1,0 +1,66 @@
+---
+import type { Locale } from '../consts';
+import { href, t } from '../lib/i18n';
+import type { Area } from '../lib/areas';
+interface Props {
+	area: Area;
+	locale: Locale;
+	count?: number;
+	index?: number;
+}
+const { area, locale, count = 0, index = 0 } = Astro.props;
+const ui = t(locale);
+---
+
+<a class:list={['card', 'area', { highlight: area.highlight }]} href={href(locale, `areas/${area.key}`)} style={`--i:${index}; ${area.highlight ? '--accent-dot: var(--accent)' : ''}`}>
+	<div class="top">
+		<span class="seq-label">//{area.seq}</span>
+		{area.highlight && <span class="chip ok"><b>{ui.area_highlight}</b></span>}
+	</div>
+	<h3>{area.name[locale]}</h3>
+	<p class="short">{area.short[locale]}</p>
+	<div class="bottom">
+		<span class="tags">{area.topics[locale].slice(0, 3).map((x) => <span class="tag">{x}</span>)}</span>
+		<span class="mono">{count} {ui.area_posts}</span>
+	</div>
+</a>
+
+<style>
+	.area {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		min-height: 11rem;
+	}
+	.top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 8px;
+		padding-right: 18px;
+	}
+	.short {
+		color: var(--muted);
+		margin: 0;
+		font-size: 0.92rem;
+		flex: 1;
+	}
+	.bottom {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+	.tags {
+		display: flex;
+		gap: 6px;
+		flex-wrap: wrap;
+	}
+	.highlight {
+		background: linear-gradient(180deg, rgba(49, 232, 157, 0.06), transparent 60%), var(--surface);
+		border-color: rgba(49, 232, 157, 0.35);
+	}
+	.highlight h3 {
+		color: var(--accent);
+	}
+</style>
