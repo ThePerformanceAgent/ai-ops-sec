@@ -16,11 +16,12 @@ interface Props {
 	modified?: Date;
 	jsonLd?: object[];
 	noindex?: boolean;
+	canonical?: string;
 }
 
 const { locale, title, description, type = 'website', alternatePath, published, modified, jsonLd = [], noindex = false } = Astro.props;
 const s = site(locale);
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = Astro.props.canonical ? new URL(Astro.props.canonical) : new URL(Astro.url.pathname, Astro.site);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const image = Astro.props.image ?? new URL(`${base}/og/default-${locale}.png`, Astro.site).toString();
 const other = otherLocale(locale);

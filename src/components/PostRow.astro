@@ -3,6 +3,7 @@ import type { Locale } from '../consts';
 import { areaOf } from '../lib/areas';
 import { formatDate, href, isoDate, t } from '../lib/i18n';
 import { readingMinutes, slugOf, type Post } from '../lib/posts';
+import CoverAnimation from './CoverAnimation.astro';
 interface Props {
 	post: Post;
 	index?: number;
@@ -14,7 +15,8 @@ const ui = t(locale);
 const area = areaOf(d.area);
 ---
 
-<li class="row reveal" style={`--i:${index}`}>
+<li class:list={['row', 'reveal', { 'has-cover': !!d.cover }]} style={`--i:${index}`}>
+	{d.cover && <a class="thumb" href={href(locale, `blog/${slugOf(post)}`)} tabindex="-1" aria-hidden="true"><CoverAnimation id={d.cover} /></a>}
 	<div class="meta mono">
 		<time datetime={d.pubDate.toISOString()}><b>{isoDate(d.pubDate)}</b></time>
 		<span>{readingMinutes(post.body)} {ui.min_read}</span>
@@ -29,6 +31,18 @@ const area = areaOf(d.area);
 </li>
 
 <style>
+	.has-cover {
+		grid-template-columns: 8.5rem 8.5rem 1fr;
+	}
+	.thumb {
+		display: block;
+		grid-row: span 2;
+	}
+	@media (max-width: 720px) {
+		.has-cover {
+			grid-template-columns: 1fr;
+		}
+	}
 	.ok {
 		color: var(--accent);
 	}

@@ -1,0 +1,370 @@
+---
+/* Capas animadas dos artigos: SVG com SMIL e CSS, sem framework. Os contadores numéricos e as
+   barras que crescem são animados por public/js/anim.js a partir de atributos data-*; sem JS
+   fica o estado final. Cores pelas variáveis do site (esmeralda), para o tema claro seguir. */
+import { ANIMATION_LABELS, type AnimationId } from '../lib/animations';
+interface Props {
+	id: AnimationId;
+	variant?: 'card' | 'hero';
+	class?: string;
+}
+const { id, variant = 'card', class: cls } = Astro.props;
+const label = ANIMATION_LABELS[id] ?? 'Gradient';
+const M = 'font-family: var(--font-mono)';
+const uid = `${id}-${Math.random().toString(36).slice(2, 7)}`;
+const tokensFlow = ['The', 'agent', 'tokeni', 'zes', 'input'];
+const peers = [{ x: 40, y: 30, l: 'srch' }, { x: 160, y: 30, l: '</>' }, { x: 40, y: 90, l: 'DB' }, { x: 160, y: 90, l: 'API' }];
+const layers = [{ x: 25, ys: [25, 50, 75, 100] }, { x: 80, ys: [30, 60, 90] }, { x: 135, ys: [40, 80] }, { x: 180, ys: [60] }];
+const people = [[30, 35], [70, 22], [110, 35], [150, 25], [178, 55], [22, 75], [60, 90], [100, 75], [140, 95], [175, 85], [100, 55]];
+const links: [number, number][] = [[0, 1], [1, 2], [2, 3], [3, 4], [2, 10], [10, 7], [5, 6], [6, 7], [7, 8], [8, 9], [10, 1], [10, 8]];
+const EN = ['the', 'client', 'wants', 'a', 'report'];
+const PT = ['o', 'cliente', 'quer', 'um', 'rela', 'tó', 'rio'];
+const chipW = (s: string) => Math.max(12, s.length * 4.6 + 6);
+const layout = (arr: string[], startX: number) => { let x = startX; return arr.map((tok, i) => { const w = chipW(tok); const r = { x, w, tok, i }; x += w + 2; return r; }); };
+const enRow = layout(EN, 14), ptRow = layout(PT, 14);
+const cols = variant === 'hero' ? 18 : 14;
+const nBlocks = variant === 'hero' ? 6 : 5, bw = 26, bgap = (200 - 20 - nBlocks * bw) / (nBlocks - 1);
+---
+
+<div class:list={['cover', variant, cls]} role="img" aria-label={label} data-anim={id}>
+	<svg viewBox="0 0 200 120" preserveAspectRatio={id === 'default-gradient' ? 'none' : 'xMidYMid meet'}>
+		<defs>
+			<linearGradient id={`${uid}-chip`} x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--anim-soft)" /><stop offset="1" stop-color="var(--anim-accent)" /></linearGradient>
+			<linearGradient id={`${uid}-deep`} x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--anim-accent)" /><stop offset="1" stop-color="var(--anim-deep)" /></linearGradient>
+			<linearGradient id={`${uid}-bar`} x1="0" x2="1"><stop offset="0" stop-color="var(--anim-soft)" /><stop offset="1" stop-color="var(--anim-accent)" /></linearGradient>
+			<linearGradient id={`${uid}-up`} x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="var(--anim-accent)" /><stop offset="1" stop-color="var(--anim-deep)" /></linearGradient>
+			<marker id={`${uid}-arrow`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="var(--anim-deep)" /></marker>
+			<radialGradient id={`${uid}-dg1`} cx="30%" cy="40%" r="60%"><stop offset="0" stop-color="var(--anim-soft)" stop-opacity="0.7" /><stop offset="1" stop-color="var(--anim-soft)" stop-opacity="0" /></radialGradient>
+			<radialGradient id={`${uid}-dg2`} cx="75%" cy="65%" r="60%"><stop offset="0" stop-color="var(--anim-accent)" stop-opacity="0.6" /><stop offset="1" stop-color="var(--anim-accent)" stop-opacity="0" /></radialGradient>
+		</defs>
+
+		{id === 'token-flow' && (
+			<g>
+				<rect x="150" y="40" width="36" height="40" rx="4" fill="none" stroke="var(--anim-deep)" stroke-width="1" />
+				<rect x="150" y="40" width="36" height="40" rx="4" fill="var(--anim-accent)" opacity="0.08"><animate attributeName="opacity" values="0.05;0.25;0.05" dur="2s" repeatCount="indefinite" /></rect>
+				<text x="168" y="64" text-anchor="middle" font-size="6" fill="var(--anim-deep)" style={M}>model</text>
+				<text x="10" y="36" font-size="6" fill="var(--anim-ink)" opacity="0.55" style={M}>prompt →</text>
+				{tokensFlow.map((tok, i) => { const w = tok.length * 3.6 + 6; return (
+					<g class="tf" style={`animation-delay:-${(i / tokensFlow.length) * 4}s`}>
+						<rect x="-30" y="56" width={w} height="12" rx="2.5" fill={`url(#${uid}-chip)`} />
+						<text x={-30 + w / 2} y="64.4" text-anchor="middle" font-size="6" fill="var(--anim-bg)" style={M}>{tok}</text>
+					</g>); })}
+				<circle cx="188" cy="92" r="2" fill="var(--anim-deep)"><animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" /></circle>
+				<text x="155" y="98" font-size="6" fill="var(--anim-ink)" opacity="0.55" style={M}>→ response</text>
+			</g>
+		)}
+
+		{id === 'agent-orbit' && (
+			<g>
+				{peers.map((p, i) => (
+					<g>
+						<line x1={p.x} y1={p.y} x2="100" y2="60" stroke="var(--anim-soft)" stroke-width="0.6" marker-end={`url(#${uid}-arrow)`} />
+						<circle r="2" fill="var(--anim-accent)"><animateMotion dur="2.4s" begin={`${i * 0.4}s`} repeatCount="indefinite" path={`M${p.x} ${p.y} L100 60`} /></circle>
+						<circle r="1.6" fill="var(--anim-deep)"><animateMotion dur="2.4s" begin={`${i * 0.4 + 1.2}s`} repeatCount="indefinite" path={`M100 60 L${p.x} ${p.y}`} /></circle>
+					</g>
+				))}
+				{peers.map((p) => (
+					<g>
+						<circle cx={p.x} cy={p.y} r="10" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.8" />
+						<text x={p.x} y={p.y + 2.4} text-anchor="middle" font-size="6" fill="var(--anim-deep)" style={M}>{p.l}</text>
+					</g>
+				))}
+				<circle cx="100" cy="60" r="20" fill="var(--anim-accent)" opacity="0.12"><animate attributeName="r" values="20;24;20" dur="2.4s" repeatCount="indefinite" /></circle>
+				<circle cx="100" cy="60" r="14" fill="var(--anim-card)" stroke="var(--anim-accent)" stroke-width="1.4" />
+				<text x="100" y="62.5" text-anchor="middle" font-size="6.5" font-weight="600" fill="var(--anim-deep)" style={M}>plan</text>
+			</g>
+		)}
+
+		{id === 'neural-mesh' && (
+			<g>
+				{layers.map((l, li) => l.ys.map((y, ni) => { const next = layers[li + 1]; if (!next) return null; return next.ys.map((y2, ni2) => (
+					<g>
+						<line x1={l.x} y1={y} x2={next.x} y2={y2} stroke="var(--anim-soft)" stroke-width="0.35" opacity="0.55" />
+						<circle r="1.6" fill="var(--anim-accent)">
+							<animateMotion dur="3s" begin={`${li * 0.6 + (ni + ni2) * 0.08}s`} repeatCount="indefinite" path={`M${l.x} ${y} L${next.x} ${y2}`} />
+							<animate attributeName="opacity" values="0;1;1;0" dur="3s" begin={`${li * 0.6 + (ni + ni2) * 0.08}s`} repeatCount="indefinite" />
+						</circle>
+					</g>)); }))}
+				{layers.map((l, li) => l.ys.map((y, ni) => (
+					<g>
+						<circle cx={l.x} cy={y} r="3.5" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.8" />
+						<circle cx={l.x} cy={y} r="1.8" fill="var(--anim-accent)"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.4s" begin={`${(li + ni) * 0.25}s`} repeatCount="indefinite" /></circle>
+					</g>)))}
+			</g>
+		)}
+
+		{id === 'prompt-craft' && (
+			<g>
+				<rect x="14" y="14" width="172" height="92" rx="4" fill="var(--anim-card)" stroke="var(--anim-soft)" stroke-width="0.8" />
+				<circle cx="22" cy="22" r="1.6" fill="var(--neg)" /><circle cx="28" cy="22" r="1.6" fill="var(--amber)" /><circle cx="34" cy="22" r="1.6" fill="var(--anim-accent)" />
+				{[['You are a ', '{role}', ' expert.'], ['Given ', '{input}', ', produce'], ['a ', '{format}', ' response.']].map(([a, v, b], i) => { const y = 48 + i * 14; const dx = 32 + a.length * 3.6; const w = v.length * 3.6 + 4; return (
+					<g class="pc" style={`animation-delay:${i * 0.5}s`}>
+						<text x="22" y={y} font-size="6" fill="var(--anim-soft)" style={M}>{i + 1}</text>
+						<text x="32" y={y} font-size="6.5" fill="var(--anim-ink)" style={M}>{a}</text>
+						<rect x={dx} y={y - 6} width={w} height="8" rx="1.5" fill="var(--anim-accent)" opacity="0.9" />
+						<text x={dx + w / 2} y={y + 0.4} text-anchor="middle" font-size="5.5" fill="var(--anim-bg)" style={M}>{v}</text>
+						<text x={dx + w} y={y} font-size="6.5" fill="var(--anim-ink)" style={M}>{b}</text>
+					</g>); })}
+				<rect x="160" y="84" width="1.4" height="8" fill="var(--anim-deep)"><animate attributeName="opacity" values="0;1;1;0" dur="1s" repeatCount="indefinite" /></rect>
+			</g>
+		)}
+
+		{id === 'data-stream' && (
+			<g style={M} font-size="7" fill="var(--anim-deep)">
+				{Array.from({ length: cols }).map((_, i) => (
+					<text x={(i / cols) * 200 + 3} y="0" class="ds" opacity={0.45 + ((i * 31) % 40) / 100} style={`animation-duration:${3 + (i % 5)}s; animation-delay:-${(i % 7) * 0.5}s`}>
+						{Array.from({ length: 22 }).map((_, k) => <tspan x={(i / cols) * 200 + 3} dy="7.5">{((i * 13 + k * 7) % 9) > 4 ? '1' : '0'}</tspan>)}
+					</text>
+				))}
+			</g>
+		)}
+
+		{id === 'chain-blocks' && (
+			<g>
+				{Array.from({ length: nBlocks }).map((_, i) => { const x = 10 + i * (bw + bgap); return (
+					<g class="cb" style={`animation-delay:${i * 0.2}s`}>
+						<rect x={x} y="42" width={bw} height="36" rx="2" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.8" />
+						<text x={x + bw / 2} y="54" text-anchor="middle" font-size="5" fill="var(--anim-deep)" style={M}>#{1000 + i}</text>
+						<line x1={x + 3} y1="60" x2={x + bw - 3} y2="60" stroke="var(--anim-soft)" stroke-width="0.4" />
+						<text x={x + bw / 2} y="68" text-anchor="middle" font-size="4.5" fill="var(--anim-ink)" opacity="0.6" style={M}>0x{(i * 17 + 23).toString(16)}af</text>
+						<text x={x + bw / 2} y="74" text-anchor="middle" font-size="4.5" fill="var(--anim-ink)" opacity="0.4" style={M}>tx: {i + 2}</text>
+						{i < nBlocks - 1 && (<g><line x1={x + bw} y1="60" x2={x + bw + bgap} y2="60" stroke="var(--anim-deep)" stroke-width="1" /><circle cx={x + bw + bgap / 2} cy="60" r="1.4" fill="var(--anim-accent)"><animate attributeName="opacity" values="0.2;1;0.2" dur="1.5s" begin={`${i * 0.3}s`} repeatCount="indefinite" /></circle></g>)}
+					</g>); })}
+			</g>
+		)}
+
+		{id === 'culture-waves' && (
+			<g>
+				{links.map(([a, b], i) => (<line x1={people[a][0]} y1={people[a][1]} x2={people[b][0]} y2={people[b][1]} stroke="var(--anim-accent)" stroke-width="0.4" opacity="0.45"><animate attributeName="opacity" values="0.1;0.7;0.1" dur="3.5s" begin={`${i * 0.25}s`} repeatCount="indefinite" /></line>))}
+				{people.map(([x, y], i) => (
+					<g>
+						<circle cx={x} cy={y} r="4.5" fill="var(--anim-soft)" opacity="0.4"><animate attributeName="r" values="4.5;7;4.5" dur="2.8s" begin={`${i * 0.2}s`} repeatCount="indefinite" /><animate attributeName="opacity" values="0.5;0;0.5" dur="2.8s" begin={`${i * 0.2}s`} repeatCount="indefinite" /></circle>
+						<circle cx={x} cy={y} r="3" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.8" />
+						<circle cx={x} cy={y - 0.6} r="0.9" fill="var(--anim-deep)" />
+						<path d={`M${x - 1.8} ${y + 1.4} Q${x} ${y + 0.6} ${x + 1.8} ${y + 1.4}`} stroke="var(--anim-deep)" stroke-width="0.6" fill="none" />
+					</g>))}
+			</g>
+		)}
+
+		{id === 'engineering-grid' && (
+			<g>
+				{Array.from({ length: 12 }).map((_, i) => <line x1="0" y1={i * 12} x2="200" y2={i * 12} stroke="var(--anim-soft)" stroke-width="0.25" opacity="0.35" />)}
+				{Array.from({ length: 20 }).map((_, i) => <line x1={i * 12} y1="0" x2={i * 12} y2="120" stroke="var(--anim-soft)" stroke-width="0.25" opacity="0.35" />)}
+				{[[20, 30, 36, 22, 'API'], [82, 58, 36, 22, 'core'], [144, 30, 36, 22, 'ui'], [82, 90, 36, 18, 'db']].map(([x, y, w, h, l]) => (
+					<g><rect x={x} y={y} width={w} height={h} rx="2" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.9" /><text x={Number(x) + Number(w) / 2} y={Number(y) + Number(h) / 2 + 2} text-anchor="middle" font-size="6" fill="var(--anim-deep)" style={M}>{l}</text></g>))}
+				{['M56 41 H82 V58', 'M118 69 H144 V52', 'M100 80 V90', 'M38 52 V99 H82'].map((d, i) => (
+					<g><path d={d} fill="none" stroke="var(--anim-accent)" stroke-width="0.8" /><circle r="1.6" fill="var(--anim-deep)"><animateMotion dur="3s" begin={`${i * 0.5}s`} repeatCount="indefinite" path={d} /></circle></g>))}
+			</g>
+		)}
+
+		{id === 'cost-meter' && (
+			<g style={M}>
+				<text x="14" y="34" font-size="6" fill="var(--anim-ink)" opacity="0.6">total spend</text>
+				<text x="14" y="56" font-size="20" font-weight="700" fill="var(--anim-deep)" data-count="4.82" data-prefix="$" data-decimals="4" data-dur="2600" data-hold="900">$4.8200</text>
+				<circle cx="180" cy="49" r="2.4" fill="var(--anim-accent)"><animate attributeName="opacity" values="0.3;1;0.3" dur="0.9s" repeatCount="indefinite" /></circle>
+				<text x="14" y="74" font-size="5.5" fill="var(--anim-ink)" opacity="0.7">input <tspan data-count="1240" data-dur="2600" data-hold="900">1,240</tspan> tk</text>
+				<rect x="14" y="76" width="172" height="4" rx="2" fill="var(--anim-soft)" opacity="0.3" />
+				<rect x="14" y="76" width="172" height="4" rx="2" fill={`url(#${uid}-bar)`} data-grow="w" data-dur="2600" data-hold="900" />
+				<text x="14" y="90" font-size="5.5" fill="var(--anim-ink)" opacity="0.7">output <tspan data-count="3480" data-dur="2600" data-hold="900">3,480</tspan> tk</text>
+				<rect x="14" y="92" width="172" height="4" rx="2" fill="var(--anim-soft)" opacity="0.3" />
+				<rect x="14" y="92" width="172" height="4" rx="2" fill={`url(#${uid}-bar)`} data-grow="w" data-dur="2600" data-hold="900" />
+			</g>
+		)}
+
+		{id === 'governance-shield' && (
+			<g style={M}>
+				<path d="M60 26 L116 26 L116 62 Q116 86 88 100 Q60 86 60 62 Z" fill="var(--anim-accent)" opacity="0.1" />
+				<path d="M60 26 L116 26 L116 62 Q116 86 88 100 Q60 86 60 62 Z" fill="none" stroke="var(--anim-accent)" stroke-width="1.2"><animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="2.6s" repeatCount="indefinite" /></path>
+				<path d="M73 62 L84 73 L104 51" fill="none" stroke="var(--anim-deep)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="60" stroke-dashoffset="60"><animate attributeName="stroke-dashoffset" values="60;0;0;60" keyTimes="0;0.4;0.85;1" dur="3.6s" repeatCount="indefinite" /></path>
+				{[[32, 'PII scrubbing'], [50, 'Audit log'], [68, 'RBAC'], [86, 'Eval gate']].map(([y, txt], i) => (
+					<g class="gs" style={`animation-delay:${i * 0.3}s`}>
+						<rect x="132" y={Number(y) - 6} width="9" height="9" rx="1.5" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.7" />
+						<path d={`M134 ${Number(y) - 1.5} L136 ${Number(y) + 0.5} L139.5 ${Number(y) - 3.5}`} stroke="var(--anim-accent)" stroke-width="1.4" fill="none" stroke-linecap="round" />
+						<text x="145" y={Number(y) + 1} font-size="6" fill="var(--anim-ink)">{txt}</text>
+					</g>))}
+			</g>
+		)}
+
+		{id === 'tokenizer-split' && (
+			<g style={M}>
+				<rect x="132" y="8" width="60" height="16" rx="2" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.7" />
+				<text x="162" y="14.5" text-anchor="middle" font-size="4.4" fill="var(--anim-ink)" opacity="0.6">price / 1M tk</text>
+				<text x="162" y="21" text-anchor="middle" font-size="6.4" font-weight="700" fill="var(--anim-deep)">$5.00</text>
+				<g transform="translate(136, 12)"><rect x="0" y="3" width="6" height="5" rx="1" fill="var(--anim-deep)" /><path d="M1 3 V1.6 Q1 0 3 0 Q5 0 5 1.6 V3" fill="none" stroke="var(--anim-deep)" stroke-width="0.7" /></g>
+				<g transform="translate(0, 42)">
+					<text x="6" y="-2" font-size="5.2" font-weight="600" fill="var(--anim-ink)" opacity="0.65">EN</text>
+					<text x="6" y="14" font-size="4.6" fill="var(--anim-ink)" opacity="0.45">the client wants a report</text>
+					{enRow.map((c) => (<g class="chip" data-seq={c.i} data-total="5" data-cycle="5200"><rect x={c.x} y="-7" width={c.w} height="11" rx="2" fill={`url(#${uid}-chip)`} /><text x={c.x + c.w / 2} y="0.8" text-anchor="middle" font-size="5" fill="var(--anim-bg)">{c.tok}</text></g>))}
+					<text x="168" y="-3" font-size="5" fill="var(--anim-ink)" opacity="0.6">tokens</text>
+					<text x="190" y="-3" font-size="8.5" font-weight="700" fill="var(--anim-deep)" data-count="5" data-decimals="0" data-cycle="5200" data-steps="6.2">5</text>
+				</g>
+				<g transform="translate(0, 82)">
+					<text x="6" y="-2" font-size="5.2" font-weight="700" fill="var(--anim-deep)" opacity="0.85">PT</text>
+					<text x="6" y="14" font-size="4.6" fill="var(--anim-ink)" opacity="0.45">o cliente quer um relatório</text>
+					{ptRow.map((c) => (<g class="chip" data-seq={c.i} data-total="7" data-cycle="5200"><rect x={c.x} y="-7" width={c.w} height="11" rx="2" fill={`url(#${uid}-deep)`} /><text x={c.x + c.w / 2} y="0.8" text-anchor="middle" font-size="5" fill="var(--anim-bg)">{c.tok}</text></g>))}
+					<text x="168" y="-3" font-size="5" fill="var(--anim-ink)" opacity="0.6">tokens</text>
+					<text x="190" y="-3" font-size="8.5" font-weight="700" fill="var(--anim-deep)" data-count="7" data-decimals="0" data-cycle="5200" data-steps="8.2">7</text>
+					<g transform="translate(198, -9)"><path d="M0 4 L3 0 L6 4 Z" fill="var(--anim-accent)" /><text x="8" y="3" font-size="4.5" font-weight="700" fill="var(--anim-deep)">+2</text></g>
+				</g>
+				<text x="100" y="115" text-anchor="middle" font-size="4.4" fill="var(--anim-ink)" opacity="0.55">same price per token · more tokens billed</text>
+			</g>
+		)}
+
+		{id === 'agentic-alpha' && (
+			<g style={M}>
+				<rect x="6" y="6" width="66" height="14" rx="2" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.7" />
+				<text x="10" y="15.5" font-size="5" fill="var(--anim-ink)" opacity="0.6">α =</text>
+				<text x="23" y="16" font-size="7.5" font-weight="700" fill="var(--anim-deep)">11.1×</text>
+				<text x="56" y="15.5" font-size="4.2" fill="var(--anim-ink)" opacity="0.55">amp</text>
+				<g transform="translate(132,8)"><rect x="0" y="0" width="6" height="6" rx="1" fill={`url(#${uid}-chip)`} /><text x="9" y="5" font-size="4.6" fill="var(--anim-ink)" opacity="0.7">visible</text><rect x="0" y="9" width="6" height="6" rx="1" fill={`url(#${uid}-deep)`} opacity="0.85" /><text x="9" y="14" font-size="4.6" fill="var(--anim-ink)" opacity="0.7">internal</text></g>
+				<g transform="translate(16, 34)" class="vis" data-seq="8" data-total="10" data-cycle="4400">
+					<rect x="0" y="0" width="60" height="40" rx="3" fill={`url(#${uid}-chip)`} />
+					<text x="30" y="18" text-anchor="middle" font-size="5.4" fill="var(--anim-bg)" opacity="0.85">response</text>
+					<text x="30" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="var(--anim-bg)">1</text>
+					<text x="30" y="46" text-anchor="middle" font-size="4.6" fill="var(--anim-deep)" opacity="0.8">token read by human</text>
+				</g>
+				{Array.from({ length: 10 }).map((_, i) => { const x = 96 + (i % 5) * 13, y = 30 + Math.floor(i / 5) * 13; return (
+					<g class="chip" data-seq={i} data-total="10" data-cycle="4400">
+						<rect x={x} y={y} width="11" height="11" rx="1.4" fill={`url(#${uid}-deep)`} stroke="var(--anim-deep)" stroke-width="0.5" />
+						<text x={x + 5.5} y={y + 7.5} text-anchor="middle" font-size="5" font-weight="700" fill="var(--anim-bg)">{i + 1}</text>
+					</g>); })}
+				<text x="127" y="64" text-anchor="middle" font-size="4.6" fill="var(--anim-deep)" opacity="0.85">plan · verify · delegate · reread</text>
+				<g transform="translate(16, 88)"><text x="0" y="0" font-size="4.6" fill="var(--anim-ink)" opacity="0.6">paid · invisible</text><text x="0" y="9" font-size="9" font-weight="700" fill="var(--anim-deep)" data-count="10" data-decimals="0" data-cycle="4400" data-steps="11.4">10</text><text x="14" y="9" font-size="5.6" fill="var(--anim-ink)" opacity="0.55">/ 10</text></g>
+				<g transform="translate(96, 84)">
+					<rect x="0" y="0" width="96" height="8" rx="1.5" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.5" />
+					<rect x="0" y="0" width="87.4" height="8" rx="1.5" fill={`url(#${uid}-deep)`} opacity="0.9" /><rect x="87.4" y="0" width="8.6" height="8" fill={`url(#${uid}-chip)`} />
+					<text x="2" y="14.5" font-size="4.4" font-weight="700" fill="var(--anim-deep)">91% hidden</text>
+					<text x="94" y="14.5" text-anchor="end" font-size="4.4" font-weight="700" fill="var(--anim-deep)">9% read</text>
+				</g>
+				<text x="100" y="116" text-anchor="middle" font-size="4.4" fill="var(--anim-ink)" opacity="0.55">one token out · ten tokens billed</text>
+			</g>
+		)}
+
+		{id === 'hidden-balance' && (
+			<g style={M}>
+				<rect x="6" y="6" width="92" height="14" rx="2" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.7" />
+				<text x="10" y="15.5" font-size="4.8" fill="var(--anim-ink)" opacity="0.6">E_cache</text>
+				<text x="34" y="16" font-size="7.5" font-weight="700" fill="var(--anim-deep)">96.2%</text>
+				<text x="70" y="15.5" font-size="4" fill="var(--anim-ink)" opacity="0.55">cache hit</text>
+				<g transform="translate(130,8)"><rect x="0" y="0" width="6" height="6" rx="1" fill={`url(#${uid}-chip)`} /><text x="9" y="5" font-size="4.6" fill="var(--anim-ink)" opacity="0.7">paid</text><rect x="0" y="9" width="6" height="6" rx="1" fill={`url(#${uid}-up)`} /><text x="9" y="14" font-size="4.6" fill="var(--anim-ink)" opacity="0.7">avoided</text></g>
+				<g transform="translate(12, 28)">
+					<rect x="0" y="0" width="66" height="58" rx="3" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.8" />
+					<text x="6" y="9" font-size="4.6" fill="var(--anim-ink)" opacity="0.55">invoice · API</text>
+					<line x1="6" y1="12" x2="60" y2="12" stroke="var(--anim-soft)" stroke-width="0.4" />
+					<text x="6" y="22" font-size="4.2" fill="var(--anim-ink)" opacity="0.55">input</text><text x="60" y="22" text-anchor="end" font-size="4.2" fill="var(--anim-ink)" opacity="0.7">$5.00 / 1M</text>
+					<text x="6" y="30" font-size="4.2" fill="var(--anim-ink)" opacity="0.55">cache read</text><text x="60" y="30" text-anchor="end" font-size="4.2" font-weight="700" fill="var(--anim-deep)">$0.50 / 1M</text>
+					<text x="33" y="42" text-anchor="middle" font-size="4.6" fill="var(--anim-ink)" opacity="0.6">paid this period</text>
+					<text x="33" y="53" text-anchor="middle" font-size="11" font-weight="700" fill="var(--anim-deep)" data-count="1140" data-prefix="$" data-cycle="5200" data-ease="1.15">$1,140</text>
+				</g>
+				<g transform="translate(92, 24)">
+					<rect x="0" y="0" width="98" height="70" rx="3" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.8" stroke-dasharray="2 1.6" />
+					<text x="6" y="9" font-size="4.6" font-weight="700" fill="var(--anim-deep)" opacity="0.9">hidden ledger · avoided</text>
+					<line x1="6" y1="12" x2="92" y2="12" stroke="var(--anim-soft)" stroke-width="0.4" />
+					<rect x="6" y="18" width="14" height="50" rx="1.2" fill={`url(#${uid}-up)`} data-grow="h" data-cycle="5200" data-ease="1.15" data-bottom="68" />
+					<text x="6" y="16" font-size="3.8" fill="var(--anim-ink)" opacity="0.5">balance</text>
+					<text x="28" y="38" font-size="4.4" fill="var(--anim-ink)" opacity="0.6">cache saved</text>
+					<text x="28" y="54" font-size="14" font-weight="700" fill="var(--anim-deep)" data-count="5104" data-prefix="$" data-cycle="5200" data-ease="1.15">$5,104</text>
+					<text x="28" y="63" font-size="4" fill="var(--anim-ink)" opacity="0.5">never on the invoice</text>
+				</g>
+				{Array.from({ length: 6 }).map((_, i) => (<circle r="1.5" fill="var(--anim-accent)"><animateMotion dur="5.2s" begin={`-${(i * 5200 / 6) / 1000}s`} repeatCount="indefinite" path="M78 56 Q85 56 92 56" /><animate attributeName="opacity" values="0;1;1;0" dur="5.2s" begin={`-${(i * 5200 / 6) / 1000}s`} repeatCount="indefinite" /></circle>))}
+				<g transform="translate(12, 104)">
+					<rect x="0" y="0" width="176" height="6" rx="1.4" fill="var(--anim-card)" stroke="var(--anim-deep)" stroke-width="0.5" />
+					<rect x="0" y="0" width="144.3" height="6" rx="1.4" fill={`url(#${uid}-up)`} /><rect x="144.3" y="0" width="31.7" height="6" fill={`url(#${uid}-chip)`} />
+					<text x="2" y="14" font-size="4.4" font-weight="700" fill="var(--anim-deep)">82% avoided by cache</text>
+					<text x="174" y="14" text-anchor="end" font-size="4.4" font-weight="700" fill="var(--anim-deep)">18% paid</text>
+				</g>
+			</g>
+		)}
+
+		{id === 'default-gradient' && (
+			<g>
+				<rect width="200" height="120" fill={`url(#${uid}-dg1)`}><animate attributeName="opacity" values="0.7;1;0.7" dur="6s" repeatCount="indefinite" /></rect>
+				<rect width="200" height="120" fill={`url(#${uid}-dg2)`}><animate attributeName="opacity" values="0.5;0.9;0.5" dur="7s" repeatCount="indefinite" /></rect>
+			</g>
+		)}
+	</svg>
+</div>
+
+<style>
+	.cover {
+		--anim-accent: var(--accent);
+		--anim-soft: color-mix(in srgb, var(--accent) 55%, var(--fg));
+		--anim-deep: color-mix(in srgb, var(--accent) 80%, var(--fg));
+		--anim-ink: var(--fg);
+		--anim-card: var(--surface3);
+		--anim-bg: var(--bg);
+		position: relative;
+		overflow: hidden;
+		border-radius: 12px;
+		border: 1px solid var(--line);
+		background: radial-gradient(120% 90% at 100% 0%, var(--accent-soft), transparent 60%), linear-gradient(135deg, var(--surface2), var(--surface));
+		aspect-ratio: 200 / 120;
+		width: 100%;
+	}
+	.cover.hero {
+		border-radius: 16px;
+		aspect-ratio: 200 / 120;
+		max-height: 24rem;
+	}
+	.cover svg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.cover::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.25) 100%);
+	}
+	:global(:root[data-theme='light']) .cover::after {
+		background: radial-gradient(ellipse at center, transparent 60%, rgba(16, 17, 23, 0.06) 100%);
+	}
+	.tf {
+		animation: aa-tf 4s linear infinite;
+	}
+	.pc {
+		animation: aa-pc 6s ease-in-out infinite;
+	}
+	.ds {
+		animation: aa-ds 4s linear infinite;
+	}
+	.cb {
+		animation: aa-cb 0.5s ease-out both;
+	}
+	.gs {
+		animation: aa-gs 0.5s ease-out both;
+	}
+	.chip,
+	.vis {
+		transition: opacity 0.2s;
+	}
+	@keyframes aa-tf {
+		0% { transform: translateX(0); opacity: 0; }
+		8% { opacity: 1; }
+		78% { opacity: 1; }
+		88% { transform: translateX(180px); opacity: 0; }
+		100% { transform: translateX(180px); opacity: 0; }
+	}
+	@keyframes aa-pc {
+		0%, 100% { opacity: 0.55; }
+		50% { opacity: 1; }
+	}
+	@keyframes aa-ds {
+		0% { transform: translateY(-55%); }
+		100% { transform: translateY(5%); }
+	}
+	@keyframes aa-cb {
+		0% { opacity: 0; transform: translateY(4px); }
+		100% { opacity: 1; transform: translateY(0); }
+	}
+	@keyframes aa-gs {
+		0% { opacity: 0; transform: translateX(4px); }
+		100% { opacity: 1; transform: translateX(0); }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.tf, .pc, .ds, .cb, .gs { animation: none; }
+	}
+</style>

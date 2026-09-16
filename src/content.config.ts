@@ -2,6 +2,7 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { AREA_KEYS } from './lib/areas';
+import { ANIMATION_IDS } from './lib/animations';
 
 // Um post é uma afirmação pública assinada. O frontmatter obriga a dizer de onde
 // vem cada coisa (sources), o que foi verificado à mão (verified) e o que mudou
@@ -21,6 +22,7 @@ const posts = defineCollection({
 			series: z.string().optional(),
 			heroImage: image().optional(),
 			heroAlt: z.string().optional(),
+			cover: z.enum(ANIMATION_IDS).optional(),
 			status: z.enum(['draft', 'review', 'published']).default('draft'),
 			sources: z
 				.array(z.object({ title: z.string(), url: z.string().url(), accessed: z.coerce.date().optional() }))

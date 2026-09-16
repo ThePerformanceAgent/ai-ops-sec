@@ -16,6 +16,7 @@ interface Props {
 	modified?: Date;
 	jsonLd?: object[];
 	noindex?: boolean;
+	canonical?: string;
 }
 const { locale, alternatePath, ...head } = Astro.props;
 const ui = t(locale);
@@ -45,6 +46,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 		</main>
 		<Footer locale={locale} />
 		<script src={`${base}/js/theme.js`} defer is:inline></script>
+		<script src={`${base}/js/anim.js`} defer is:inline></script>
 	</body>
 </html>
 

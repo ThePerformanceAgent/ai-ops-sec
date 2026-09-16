@@ -6,6 +6,7 @@ import TraceRail from '../components/TraceRail.astro';
 import Callout from '../components/mdx/Callout.astro';
 import Redacted from '../components/mdx/Redacted.astro';
 import { Image } from 'astro:assets';
+import CoverAnimation from '../components/CoverAnimation.astro';
 import type { Locale } from '../consts';
 import { href, t } from '../lib/i18n';
 import { areaOf } from '../lib/areas';
@@ -48,6 +49,7 @@ const area = areaOf(d.area);
 	modified={d.updatedDate ?? d.pubDate}
 	jsonLd={jsonLd}
 	noindex={d.status !== 'published'}
+	canonical={d.canonical}
 >
 	<article class="post" data-pagefind-body>
 		<header class="head reveal">
@@ -58,6 +60,7 @@ const area = areaOf(d.area);
 		<div class="grid">
 			<TraceRail post={post} headings={headings} translation={translation} />
 			<div class="body reveal" style="--i:3">
+				{d.cover && !d.heroImage && <div class="hero-cover"><CoverAnimation id={d.cover} variant="hero" /></div>}
 				{d.heroImage && (
 					<figure>
 						<Image src={d.heroImage} alt={d.heroAlt ?? ''} width={1200} densities={[1, 2]} loading="eager" />
@@ -89,6 +92,10 @@ const area = areaOf(d.area);
 	}
 	figure {
 		margin: 0 0 2rem;
+	}
+	.hero-cover {
+		margin: 0 0 2rem;
+		max-width: var(--measure);
 	}
 	figure img {
 		width: 100%;
