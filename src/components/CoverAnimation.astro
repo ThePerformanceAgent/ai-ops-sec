@@ -317,6 +317,40 @@ const nBlocks = variant === 'hero' ? 6 : 5, bw = 26, bgap = (200 - 20 - nBlocks 
 			</g>
 		)}
 
+		{id === 'calibration-band' && (
+			<g style={M}>
+				<text x="14" y="18" font-size="5" fill="var(--anim-ink)" opacity="0.6">erro observado vs banda nula</text>
+				<text x="14" y="34" font-size="5.5" fill="var(--anim-ink)" opacity="0.75">N <tspan font-size="7.5" font-weight="700" fill="var(--anim-deep)" data-count="1202" data-dur="2600" data-hold="900">1,202</tspan> casos</text>
+
+				<text x="14" y="50" font-size="4.6" fill="var(--anim-ink)" opacity="0.7">observado</text>
+				<rect x="62" y="45" width="124" height="6" rx="3" fill="var(--anim-soft)" opacity="0.22" />
+				<rect x="62" y="45" width="96" height="6" rx="3" fill={`url(#${uid}-bar)`} data-grow="w" data-dur="2600" data-hold="900" />
+
+				<text x="14" y="68" font-size="4.6" fill="var(--anim-ink)" opacity="0.7">banda nula</text>
+				<rect x="62" y="63" width="124" height="6" rx="3" fill="var(--anim-soft)" opacity="0.22" />
+				<rect x="62" y="63" height="6" rx="3" fill="var(--anim-deep)" opacity="0.5" width="78">
+					<animate attributeName="width" values="124;124;78" keyTimes="0;0.35;1" dur="2.6s" fill="freeze" />
+				</rect>
+
+				<g>
+					<rect x="62" y="80" width="74" height="13" rx="6.5" fill="var(--anim-soft)" opacity="0.28">
+						<animate attributeName="opacity" values="0.28;0.28;0" keyTimes="0;0.55;0.75" dur="2.6s" fill="freeze" />
+					</rect>
+					<text x="99" y="88.6" text-anchor="middle" font-size="5" fill="var(--anim-ink)" opacity="0.8">sem resposta ainda
+						<animate attributeName="opacity" values="0.8;0.8;0" keyTimes="0;0.55;0.75" dur="2.6s" fill="freeze" />
+					</text>
+					<rect x="62" y="80" width="62" height="13" rx="6.5" fill="var(--anim-accent)" opacity="0">
+						<animate attributeName="opacity" values="0;0;0.85" keyTimes="0;0.75;1" dur="2.6s" fill="freeze" />
+					</rect>
+					<text x="93" y="88.6" text-anchor="middle" font-size="5" font-weight="700" fill="var(--anim-deep)" opacity="0">descalibrado
+						<animate attributeName="opacity" values="0;0;1" keyTimes="0;0.75;1" dur="2.6s" fill="freeze" />
+					</text>
+				</g>
+
+				<text x="14" y="108" font-size="4.2" fill="var(--anim-ink)" opacity="0.55">o erro so se le contra o ruido do proprio N</text>
+			</g>
+		)}
+
 		{id === 'default-gradient' && (
 			<g>
 				<rect width="200" height="120" fill={`url(#${uid}-dg1)`}><animate attributeName="opacity" values="0.7;1;0.7" dur="6s" repeatCount="indefinite" /></rect>
